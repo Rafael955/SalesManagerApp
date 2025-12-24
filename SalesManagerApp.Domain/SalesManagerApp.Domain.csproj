@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Dtos\Requests\UserLoginRequestDto.cs~RF16092fad.TMP" />
+    <None Remove="Dtos\Responses\OrderItemResponseDto.cs~RF161679e6.TMP" />
+    <None Remove="Dtos\Responses\OrderResponseDto.cs~RF1612ec69.TMP" />
+    <None Remove="Dtos\Responses\ProductResponseDto.cs~RF16072026.TMP" />
+    <None Remove="Dtos\Responses\ProductResponseDto.cs~RF16156a3b.TMP" />
+    <None Remove="Interfaces\Repositories\AuthRepository.cs~RF12062494.TMP" />
+    <None Remove="Entities\BaseEntity.cs~RF11d8d074.TMP" />
+    <None Remove="Entities\Customer.cs~RF11d3c3ca.TMP" />
+    <None Remove="Entities\Customer.cs~RF12429617.TMP" />
+    <None Remove="Entities\Order.cs~RF11e287e1.TMP" />
+    <None Remove="Entities\Order.cs~RF125b14b8.TMP" />
+    <None Remove="Entities\OrderItem.cs~RF11da49a7.TMP" />
+    <None Remove="Entities\OrderItem.cs~RF11e0fb27.TMP" />
+    <None Remove="Entities\OrderItem.cs~RF11e369a6.TMP" />
+    <None Remove="Entities\Product.cs~RF11e2522b.TMP" />
+    <None Remove="Entities\Product.cs~RF126e9c0c.TMP" />
+    <None Remove="Entities\Product.cs~RF12720140.TMP" />
+    <None Remove="Entities\User.cs~RF1235e84d.TMP" />
+    <None Remove="Interfaces\Repositories\BaseRepository.cs~RF162aef05.TMP" />
+    <None Remove="Interfaces\Repositories\IOrderRepository.cs~RF162dad88.TMP" />
+    <None Remove="Interfaces\Repositories\IProductRepository.cs~RF162c30db.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\Services\" />
+    <Folder Include="Validators\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mapster" Version="7.4.0" />
+  </ItemGroup>
+
+</Project>

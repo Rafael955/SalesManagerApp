@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/01 - Api/">
+    <Project Path="SalesManagerApp/SalesManagerApp.csproj" />
+  </Folder>
+  <Folder Name="/02 - Domain/">
+    <Project Path="SalesManagerApp.Domain/SalesManagerApp.Domain.csproj" />
+  </Folder>
+  <Folder Name="/03 - Infrastructure/">
+    <Project Path="SalesManagerApp.Infra.Data/SalesManagerApp.Infra.Data.csproj" />
+  </Folder>
+</Solution>

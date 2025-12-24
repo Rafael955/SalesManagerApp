@@ -1,0 +1,59 @@
+@SalesManagerApp_HostAddress = http://localhost:5093
+
+POST {{SalesManagerApp_HostAddress}}/api/auth/login
+
+###
+
+DELETE {{SalesManagerApp_HostAddress}}/api/customers/delete-customer/{id}
+
+###
+
+GET {{SalesManagerApp_HostAddress}}/api/customers/get-customer/{id}
+
+###
+
+GET {{SalesManagerApp_HostAddress}}/api/customers/list-customers
+
+###
+
+POST {{SalesManagerApp_HostAddress}}/api/customers/register-customer
+
+###
+
+PUT {{SalesManagerApp_HostAddress}}/api/customers/update-customer/{id}
+
+###
+
+POST {{SalesManagerApp_HostAddress}}/api/orders/create-order
+
+###
+
+@pageNumber=0
+@pageSize=0
+GET {{SalesManagerApp_HostAddress}}/api/orders/list-orders?pageNumber={{pageNumber}}&pageSize={{pageSize}}
+
+###
+
+GET {{SalesManagerApp_HostAddress}}/api/orders/update-order-status/{id}
+
+###
+
+POST {{SalesManagerApp_HostAddress}}/api/products/create-product
+
+###
+
+DELETE {{SalesManagerApp_HostAddress}}/api/products/delete-product/{id}
+
+###
+
+GET {{SalesManagerApp_HostAddress}}/api/products/get-product/{id}
+
+###
+
+GET {{SalesManagerApp_HostAddress}}/api/products/list-products
+
+###
+
+PUT {{SalesManagerApp_HostAddress}}/api/products/update-product/{id}
+
+###
