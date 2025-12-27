@@ -13,13 +13,13 @@ namespace SalesManagerApp.Controllers
         }
 
         [HttpPut("update-customer/{id}")]
-        public IActionResult Put()
+        public IActionResult Put([FromRoute] Guid id)
         {
             return Ok();
         }
 
         [HttpDelete("delete-customer/{id}")]
-        public IActionResult Delete()
+        public IActionResult Delete([FromRoute] Guid id)
         {
             return Ok();
         }
@@ -31,7 +31,7 @@ namespace SalesManagerApp.Controllers
         }
 
         [HttpGet("get-customer/{id}")]
-        public IActionResult GetById()
+        public IActionResult GetById([FromRoute] Guid id)
         {
             return Ok();
         }

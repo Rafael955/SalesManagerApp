@@ -10,10 +10,10 @@
     <None Remove="Contexts\DataContext.cs~RF120d9221.TMP" />
     <None Remove="Mappings\OrderMap.cs~RF12152111.TMP" />
     <None Remove="Mappings\ProductMap.cs~RF12153d34.TMP" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Repositories\" />
+    <None Remove="Repositories\AuthRepository.cs~RF27b42e4.TMP" />
+    <None Remove="Repositories\CustomerRepository.cs~RF292dca3.TMP" />
+    <None Remove="Repositories\ProductRepository.cs~RF291e572.TMP" />
+    <None Remove="Repositories\ProductRepository.cs~RF2b7075e.TMP" />
   </ItemGroup>
 
   <ItemGroup>

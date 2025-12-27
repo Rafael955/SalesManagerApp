@@ -4,6 +4,6 @@ namespace SalesManagerApp.Domain.Interfaces.Repositories
 {
     public interface IOrderRepository : IBaseRepository<Order>
     {
-
+        List<Order>? GetPaginatedList(int pageNumber, int pageSize);
     }
 }

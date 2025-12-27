@@ -1,11 +1,9 @@
-﻿using SalesManagerApp.Domain.Dtos.Requests;
-using SalesManagerApp.Domain.Dtos.Responses;
-using SalesManagerApp.Domain.Entities;
+﻿using SalesManagerApp.Domain.Entities;
 
 namespace SalesManagerApp.Domain.Interfaces.Repositories
 {
-    public interface IAuthRepository : IBaseRepository<Order>
+    public interface IAuthRepository : IBaseRepository<User>
     {
-        UserLoginResponseDto AuthUser(UserLoginRequestDto request);
+        User? AuthUser(string email, string password);
     }
 }

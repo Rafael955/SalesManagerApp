@@ -2,10 +2,8 @@
 
 namespace SalesManagerApp.Domain.Entities
 {
-    public class Order
+    public class Order : BaseEntity
     {
-        public Guid Id { get; set; }
-
         public DateTime OrderDate { get; set; }
 
         public decimal TotalValue { get; set; }
