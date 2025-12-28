@@ -10,6 +10,7 @@
     <None Remove="Dtos\Requests\CreateOrderRequestDto.cs~RF2ce60e8.TMP" />
     <None Remove="Dtos\Requests\OrderItemRequestDto.cs~RF2c8269b.TMP" />
     <None Remove="Dtos\Requests\OrderItemRequestDto.cs~RF2c950f2.TMP" />
+    <None Remove="Dtos\Requests\ProductRequestDto.cs~RFdaa8fd.TMP" />
     <None Remove="Dtos\Requests\UserLoginRequestDto.cs~RF16092fad.TMP" />
     <None Remove="Dtos\Responses\OrderItemResponseDto.cs~RF161679e6.TMP" />
     <None Remove="Dtos\Responses\OrderResponseDto.cs~RF1612ec69.TMP" />
@@ -33,15 +34,12 @@
     <None Remove="Interfaces\Repositories\IOrderRepository.cs~RF2b97476.TMP" />
     <None Remove="Interfaces\Repositories\IProductRepository.cs~RF162c30db.TMP" />
     <None Remove="Interfaces\Services\IOrderDomainService.cs~RF4c48bf.TMP" />
+    <None Remove="Validations\UpdateOrderStatusValidator.cs~RF617fcfe.TMP" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Validators\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Mapster" Version="7.4.0" />
+    <PackageReference Include="FluentValidation" Version="12.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.1" />
   </ItemGroup>
 
 </Project>

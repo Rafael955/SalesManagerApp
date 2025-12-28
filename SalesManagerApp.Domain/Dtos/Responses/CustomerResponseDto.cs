@@ -1,4 +1,6 @@
-﻿namespace SalesManagerApp.Domain.Dtos.Responses
+﻿using SalesManagerApp.Domain.Entities;
+
+namespace SalesManagerApp.Domain.Dtos.Responses
 {
     public class CustomerResponseDto
     {
@@ -9,5 +11,7 @@
         public string? Email { get; set; }
 
         public string? Phone { get; set; }
+
+        public ICollection<Order>? Orders { get; set; }
     }
 }

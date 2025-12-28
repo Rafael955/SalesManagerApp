@@ -2,10 +2,8 @@
 
 namespace SalesManagerApp.Domain.Dtos.Requests
 {
-    public class CreateOrderRequestDto
+    public class AlterOrderRequestDto
     {
-        public Guid CustomerId { get; set; }
-
         public List<OrderItem>? OrderItems { get; set; }
     }
 }

@@ -1,14 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SalesManagerApp.Domain.Dtos.Requests;
 
 namespace SalesManagerApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OrdersController : ControllerBase
     {
         [HttpPost("create-order")]
         public IActionResult CreateOrder([FromBody] CreateOrderRequestDto request)
+        {
+            return Ok();
+        }
+
+        [HttpPost("alter-order")]
+        public IActionResult AlterOrder([FromBody] CreateOrderRequestDto request)
         {
             return Ok();
         }

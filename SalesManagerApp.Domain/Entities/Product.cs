@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SalesManagerApp.Domain.Entities
+﻿namespace SalesManagerApp.Domain.Entities
 {
     public class Product : BaseEntity
     {
