@@ -5,12 +5,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
 // Registrar a configuração do Swagger
 builder.Services.AddSwaggerConfiguration();
 
-builder.Services.AddRouting(options => options.LowercaseUrls = true);
-
 builder.Services.AddDependencyInjectionConfiguration();
+
+builder.Services.AddAuthConfiguration();
 
 var app = builder.Build();
 

@@ -4,9 +4,9 @@ using SalesManagerApp.Domain.Dtos.Requests;
 
 namespace SalesManagerApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class OrdersController : ControllerBase
     {
         [HttpPost("create-order")]

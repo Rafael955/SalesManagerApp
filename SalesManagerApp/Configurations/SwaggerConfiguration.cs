@@ -9,7 +9,7 @@ namespace SalesManagerApp.Configurations
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(option =>
             {
-                const string schemeId = "bearer";
+                const string schemeId = "Bearer";
                 option.SwaggerDoc("v1", new OpenApiInfo { Title = "Sales Manager API", Version = "v1" });
                 option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {

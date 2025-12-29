@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SalesManagerApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class CustomersController : ControllerBase
     {
         [HttpPost("register-customer")]
