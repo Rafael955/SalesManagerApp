@@ -5,7 +5,7 @@ namespace SalesManagerApp.Domain.Services
 {
     public class ProductDomainService : IProductDomainService
     {
-        public ProductRequestDto? AdicionarProduto(ProductRequestDto request)
+        public ProductRequestDto? CriarProduto(ProductRequestDto request)
         {
             throw new NotImplementedException();
         }

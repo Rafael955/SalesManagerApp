@@ -85,12 +85,39 @@ namespace SalesManagerApp.Domain.Services
 
         public CustomerResponseDto? ObterClientePorId(Guid? id)
         {
-            throw new NotImplementedException();
+            var customer = customerRepository.GetById(id.Value);
+
+            if (customer == null)
+                throw new ApplicationException("O cliente com este Id não existe!");
+
+            return new CustomerResponseDto
+            {
+                Id = customer.Id,
+                Name = customer.Name,
+                Email = customer.Email,
+                Phone = customer.Phone,
+                Orders = customer.Orders
+            };
         }
 
         public ICollection<CustomerResponseDto> ObterTodosClientes()
         {
-            throw new NotImplementedException();
+            var customers = customerRepository.GetAll();
+
+            List<CustomerResponseDto> listCustomersDto = new List<CustomerResponseDto>();
+
+            foreach (var customer in customers)
+            {
+                listCustomersDto.Add(new CustomerResponseDto
+                {
+                    Id = customer.Id,
+                    Name = customer.Name,
+                    Email = customer.Email,
+                    Phone = customer.Phone
+                });
+            }
+
+            return listCustomersDto;
         }
     }
 }

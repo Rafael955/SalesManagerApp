@@ -1,41 +1,179 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Azure.Core;
+using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SalesManagerApp.Domain.Dtos.Requests;
+using SalesManagerApp.Domain.Dtos.Responses;
+using SalesManagerApp.Domain.Interfaces.Services;
 
 namespace SalesManagerApp.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class ProductsController(IProductDomainService productDomainService) : ControllerBase
     {
         [HttpPost("create-product")]
-        public IActionResult Post()
+        [ProducesResponseType(typeof(ProductResponseDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ValidationErrorResponseDto), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status500InternalServerError)]
+        public IActionResult Post([FromBody] ProductRequestDto request)
         {
-            return Ok();
+            try
+            {
+                var result = productDomainService.CriarProduto(request);
+
+                return StatusCode(StatusCodes.Status201Created, new
+                {
+                    Message = "Produto criado com sucesso",
+                    Data = result
+                });
+            }
+            catch (ValidationException ex)
+            {
+                var errors = ex.Errors.Select(e => new ValidationErrorResponseDto
+                {
+                    PropertyName = e.PropertyName,
+                    ErrorMessage = e.ErrorMessage
+                });
+
+                return StatusCode(StatusCodes.Status400BadRequest, errors);
+            }
+            catch (ApplicationException ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponseDto
+                {
+                    Message = ex.Message
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponseDto
+                {
+                    Message = ex.Message
+                });
+            }
         }
 
         [HttpPut("update-product/{id}")]
-        public IActionResult Put()
+        [ProducesResponseType(typeof(ProductResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationErrorResponseDto), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status500InternalServerError)]
+        public IActionResult Put([FromRoute] Guid? id, [FromBody] ProductRequestDto request)
         {
-            return Ok();
+            try
+            {
+                var result = productDomainService.CriarProduto(request);
+
+                return StatusCode(StatusCodes.Status200OK, new
+                {
+                    Message = "Produto alterado com sucesso",
+                    Data = result
+                });
+            }
+            catch (ValidationException ex)
+            {
+                var errors = ex.Errors.Select(e => new ValidationErrorResponseDto
+                {
+                    PropertyName = e.PropertyName,
+                    ErrorMessage = e.ErrorMessage
+                });
+
+                return StatusCode(StatusCodes.Status400BadRequest, errors);
+            }
+            catch (ApplicationException ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponseDto
+                {
+                    Message = ex.Message
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponseDto
+                {
+                    Message = ex.Message
+                });
+            }
         }
 
         [HttpDelete("delete-product/{id}")]
-        public IActionResult Delete()
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status500InternalServerError)]
+        public IActionResult Delete([FromRoute] Guid? id)
         {
-            return Ok();
-        }
+            try
+            {
+                productDomainService.ExcluirProduto(id);
 
-        [HttpGet("list-products")]
-        public IActionResult Get()
-        {
-            return Ok();
+                return StatusCode(StatusCodes.Status204NoContent);
+            }
+            catch (ApplicationException ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponseDto
+                {
+                    Message = ex.Message
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponseDto
+                {
+                    Message = ex.Message
+                });
+            }
         }
 
         [HttpGet("get-product/{id}")]
-        public IActionResult GetById()
+        [ProducesResponseType(typeof(ProductResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status500InternalServerError)]
+        public IActionResult GetById([FromRoute] Guid? id)
         {
-            return Ok();
+            try
+            {
+                var result = productDomainService.ObterProdutoPorId(id);
+
+                return StatusCode(StatusCodes.Status200OK, result);
+            }
+            catch (ApplicationException ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponseDto
+                {
+                    Message = ex.Message
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponseDto
+                {
+                    Message = ex.Message
+                });
+            }
         }
+
+        [HttpGet("list-products")]
+        [ProducesResponseType(typeof(ProductResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status500InternalServerError)]
+        public IActionResult Get()
+        {
+            try
+            {
+                var result = productDomainService.ObterTodosProdutos();
+
+                return StatusCode(StatusCodes.Status200OK, result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponseDto
+                {
+                    Message = ex.Message
+                });
+            }
+        }
+
     }
 }

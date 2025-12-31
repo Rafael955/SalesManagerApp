@@ -34,7 +34,7 @@ namespace SalesManagerApp.Infra.Data.Repositories
             }
         }
 
-        public T? GetById(Guid id)
+        public virtual T? GetById(Guid id)
         {
             using (var context = new DataContext())
             {
@@ -42,7 +42,7 @@ namespace SalesManagerApp.Infra.Data.Repositories
             }
         }
 
-        public List<T>? GetAll()
+        public virtual List<T>? GetAll()
         {
             using (var context = new DataContext())
             {
