@@ -34,6 +34,9 @@ namespace SalesManagerApp.Infra.Data.Mappings
             builder.Property(c => c.CreatedAt)
                 .HasColumnName("CREATED_AT")
                 .IsRequired();
+
+            builder.HasIndex(c => c.Email)
+                .IsUnique();
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-
-namespace SalesManagerApp.Domain.Entities
+﻿namespace SalesManagerApp.Domain.Entities
 {
     public class Customer : BaseEntity
     {

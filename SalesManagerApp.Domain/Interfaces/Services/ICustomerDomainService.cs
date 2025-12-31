@@ -7,9 +7,9 @@ namespace SalesManagerApp.Domain.Interfaces.Services
     {
         CustomerResponseDto? RegistrarCliente(CustomerRequestDto request);
 
-        CustomerResponseDto? AtualizarCliente(Guid? id, CustomerResponseDto request);
+        CustomerResponseDto? AtualizarCliente(Guid? id, CustomerRequestDto request);
 
-        CustomerResponseDto? ExcluirCliente(Guid? id);
+        void ExcluirCliente(Guid? id);
 
         CustomerResponseDto? ObterClientePorId(Guid? id);
 

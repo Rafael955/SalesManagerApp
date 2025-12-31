@@ -12,6 +12,7 @@
     <None Remove="Dtos\Requests\OrderItemRequestDto.cs~RF2c950f2.TMP" />
     <None Remove="Dtos\Requests\ProductRequestDto.cs~RFdaa8fd.TMP" />
     <None Remove="Dtos\Requests\UserLoginRequestDto.cs~RF16092fad.TMP" />
+    <None Remove="Dtos\Responses\CustomerResponseDto.cs~RF105bcda3.TMP" />
     <None Remove="Dtos\Responses\OrderItemResponseDto.cs~RF161679e6.TMP" />
     <None Remove="Dtos\Responses\OrderResponseDto.cs~RF1612ec69.TMP" />
     <None Remove="Dtos\Responses\ProductResponseDto.cs~RF16072026.TMP" />

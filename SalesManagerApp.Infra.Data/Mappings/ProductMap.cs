@@ -8,7 +8,7 @@ namespace SalesManagerApp.Infra.Data.Mappings
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {
-            builder.ToTable("PRODUCT");
+            builder.ToTable("PRODUCTS");
 
             builder.HasKey(p => p.Id);
 
