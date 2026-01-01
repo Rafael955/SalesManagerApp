@@ -1,17 +1,18 @@
 ﻿using SalesManagerApp.Domain.Dtos.Requests;
+using SalesManagerApp.Domain.Dtos.Responses;
 
 namespace SalesManagerApp.Domain.Interfaces.Services
 {
     public interface IProductDomainService
     {
-        ProductRequestDto? CriarProduto(ProductRequestDto request);
+        ProductResponseDto? CriarProduto(ProductRequestDto request);
 
-        ProductRequestDto? AtualizarProduto(Guid? id, ProductRequestDto request);
+        ProductResponseDto? AtualizarProduto(Guid? id, ProductRequestDto request);
 
-        ProductRequestDto? ExcluirProduto(Guid? id);
+        void ExcluirProduto(Guid? id);
 
-        ProductRequestDto? ObterProdutoPorId(Guid? id);
+        ProductResponseDto? ObterProdutoPorId(Guid? id);
 
-        ICollection<ProductRequestDto> ObterTodosProdutos();
+        ICollection<ProductResponseDto> ObterTodosProdutos();
     }
 }

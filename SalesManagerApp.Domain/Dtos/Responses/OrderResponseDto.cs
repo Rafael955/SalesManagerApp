@@ -10,6 +10,8 @@
 
         public string OrderStatus { get; set; }
 
+        public Guid? CustomerId { get; set; }
+
         public CustomerResponseDto? Customer { get; set; }
 
         public List<OrderItemResponseDto>? OrderItems { get; set; }

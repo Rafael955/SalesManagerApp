@@ -42,7 +42,7 @@ namespace SalesManagerApp.Infra.Data.Repositories
             }
         }
 
-        public virtual List<T>? GetAll()
+        public virtual List<T> GetAll()
         {
             using (var context = new DataContext())
             {

@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SalesManagerApp.Domain.Dtos.Requests;
@@ -15,7 +14,7 @@ namespace SalesManagerApp.Controllers
     {
         [HttpPost("create-product")]
         [ProducesResponseType(typeof(ProductResponseDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ValidationErrorResponseDto), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IEnumerable<ValidationErrorResponseDto>), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status500InternalServerError)]
         public IActionResult Post([FromBody] ProductRequestDto request)
@@ -38,7 +37,7 @@ namespace SalesManagerApp.Controllers
                     ErrorMessage = e.ErrorMessage
                 });
 
-                return StatusCode(StatusCodes.Status400BadRequest, errors);
+                return StatusCode(StatusCodes.Status422UnprocessableEntity, errors);
             }
             catch (ApplicationException ex)
             {
@@ -58,7 +57,7 @@ namespace SalesManagerApp.Controllers
 
         [HttpPut("update-product/{id}")]
         [ProducesResponseType(typeof(ProductResponseDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ValidationErrorResponseDto), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IEnumerable<ValidationErrorResponseDto>), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status500InternalServerError)]
         public IActionResult Put([FromRoute] Guid? id, [FromBody] ProductRequestDto request)
@@ -81,7 +80,7 @@ namespace SalesManagerApp.Controllers
                     ErrorMessage = e.ErrorMessage
                 });
 
-                return StatusCode(StatusCodes.Status400BadRequest, errors);
+                return StatusCode(StatusCodes.Status422UnprocessableEntity, errors);
             }
             catch (ApplicationException ex)
             {

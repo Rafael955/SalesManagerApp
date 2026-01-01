@@ -1,11 +1,18 @@
-﻿namespace SalesManagerApp.Domain.Enums
+﻿using System.ComponentModel;
+
+namespace SalesManagerApp.Domain.Enums
 {
     public enum OrderStatus
     {
-        Pending,      
-        Approved,     
-        InProgress,   
-        Completed,    
+        [Description("Pendente")]
+        Pending,
+        [Description("Aprovado")]
+        Approved,
+        [Description("Em progresso")]
+        InProgress,
+        [Description("Finalizado")]
+        Completed,
+        [Description("Cancelado")]
         Cancelled    
     }
 }

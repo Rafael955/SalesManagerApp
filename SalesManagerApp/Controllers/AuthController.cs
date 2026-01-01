@@ -13,7 +13,7 @@ namespace SalesManagerApp.Controllers
     {
         [HttpPost("login")]
         [ProducesResponseType(typeof(UserLoginResponseDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(IEnumerable<ValidationErrorResponseDto>),StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IEnumerable<ValidationErrorResponseDto>),StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ErrorResponseDto),StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ErrorResponseDto),StatusCodes.Status500InternalServerError)]
         public IActionResult Login([FromBody] UserLoginRequestDto request)
@@ -32,7 +32,7 @@ namespace SalesManagerApp.Controllers
                     ErrorMessage = e.ErrorMessage 
                 });
 
-                return StatusCode(StatusCodes.Status400BadRequest, errors);
+                return StatusCode(StatusCodes.Status422UnprocessableEntity, errors);
             }
             catch (AuthenticationException ex)
             {

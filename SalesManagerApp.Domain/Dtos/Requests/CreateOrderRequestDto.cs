@@ -1,11 +1,9 @@
-﻿using SalesManagerApp.Domain.Entities;
-
-namespace SalesManagerApp.Domain.Dtos.Requests
+﻿namespace SalesManagerApp.Domain.Dtos.Requests
 {
     public class CreateOrderRequestDto
     {
         public Guid CustomerId { get; set; }
 
-        public List<OrderItem>? OrderItems { get; set; }
+        public List<CreateOrderItemRequestDto>? OrderItems { get; set; }
     }
 }

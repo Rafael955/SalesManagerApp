@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Dtos\Requests\CreateOrderItemRequestDto.cs~RF17236dc4.TMP" />
     <None Remove="Dtos\Requests\CreateOrderRequestDto.cs~RF2ce60e8.TMP" />
     <None Remove="Dtos\Requests\OrderItemRequestDto.cs~RF2c8269b.TMP" />
     <None Remove="Dtos\Requests\OrderItemRequestDto.cs~RF2c950f2.TMP" />

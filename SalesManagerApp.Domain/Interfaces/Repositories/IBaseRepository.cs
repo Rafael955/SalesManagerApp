@@ -6,6 +6,6 @@
         void Update(T entity);
         void Delete(T entity);
         T? GetById(Guid id);
-        List<T>? GetAll();
+        List<T> GetAll();
     }
 }

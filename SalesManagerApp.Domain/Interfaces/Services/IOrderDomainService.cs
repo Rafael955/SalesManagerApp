@@ -5,11 +5,11 @@ namespace SalesManagerApp.Domain.Interfaces.Services
 {
     public interface IOrderDomainService
     {
-        OrderResponseDto? CriarPedido(CreateOrderRequestDto request);
+        OrderResponseDto CriarPedido(CreateOrderRequestDto request);
 
-        OrderResponseDto? CancelarPedido(Guid? id);
+        OrderResponseDto CancelarPedido(Guid? id);
 
-        OrderResponseDto? AtualizarStatusDoPedido(Guid? id, UpdateOrderStatusRequestDto requestDto);
+        OrderResponseDto AtualizarStatusDoPedido(Guid? id, UpdateOrderStatusRequestDto request);
         
         ICollection<OrderResponseDto> ListarPedidos(int pageNumber, int pageSize);
 
