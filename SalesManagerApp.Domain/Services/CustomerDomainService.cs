@@ -10,7 +10,7 @@ namespace SalesManagerApp.Domain.Services
 {
     public class CustomerDomainService(ICustomerRepository customerRepository) : ICustomerDomainService
     {
-        public CustomerResponseDto? RegistrarCliente(CustomerRequestDto request)
+        public CustomerResponseDto RegistrarCliente(CustomerRequestDto request)
         {
             var validation = new CustomerValidator().Validate(request);
 
@@ -41,7 +41,7 @@ namespace SalesManagerApp.Domain.Services
             };
         }
 
-        public CustomerResponseDto? AtualizarCliente(Guid? id, CustomerRequestDto request)
+        public CustomerResponseDto AtualizarCliente(Guid? id, CustomerRequestDto request)
         {
             var customer = customerRepository.GetById(id.Value);
 
@@ -83,7 +83,7 @@ namespace SalesManagerApp.Domain.Services
             customerRepository.Delete(customer);
         }
 
-        public CustomerResponseDto? ObterClientePorId(Guid? id)
+        public CustomerResponseDto ObterClientePorId(Guid? id)
         {
             var customer = customerRepository.GetById(id.Value);
 

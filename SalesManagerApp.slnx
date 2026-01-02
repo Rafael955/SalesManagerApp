@@ -8,4 +8,7 @@
   <Folder Name="/03 - Infrastructure/">
     <Project Path="SalesManagerApp.Infra.Data/SalesManagerApp.Infra.Data.csproj" />
   </Folder>
+  <Folder Name="/04 - Test/">
+    <Project Path="SalesManagerApp.Test/SalesManagerApp.Test.csproj" Id="776afd5a-1aa3-4049-a5b6-16433b1573d7" />
+  </Folder>
 </Solution>

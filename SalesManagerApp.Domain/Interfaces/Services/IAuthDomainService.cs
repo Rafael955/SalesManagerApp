@@ -5,6 +5,6 @@ namespace SalesManagerApp.Domain.Interfaces.Services
 {
     public interface IAuthDomainService
     {
-        UserLoginResponseDto? AutenticarUsuario(UserLoginRequestDto request);
+        UserLoginResponseDto AutenticarUsuario(UserLoginRequestDto request);
     }
 }

@@ -11,7 +11,7 @@ namespace SalesManagerApp.Domain.Services
 {
     public class AuthDomainService(IAuthRepository authRepository) : IAuthDomainService
     {
-        public UserLoginResponseDto? AutenticarUsuario(UserLoginRequestDto request)
+        public UserLoginResponseDto AutenticarUsuario(UserLoginRequestDto request)
         {
             var validation = new UserLoginValidator().Validate(request);
 
@@ -21,14 +21,14 @@ namespace SalesManagerApp.Domain.Services
             var userData = authRepository.AuthUser(request.Email!, CryptoHelper.GetSHA256(request.Password!));
 
             if(userData == null)
-                throw new AuthenticationException("Email ou senha inválidos!");
+                throw new AuthenticationException("Acesso negado. Credenciais inválidas.");
 
             return new UserLoginResponseDto
             {
                 Id = userData.Id,
                 Name = userData.Name,
                 Email = userData.Email,
-                Role = userData.Role.ToString(),
+                Role = userData.Role.GetDescription(),
                 AccessToken = JwtTokenHelper.GenerateToken(userData.Email!, userData.Role.GetDescription())
             };
         }

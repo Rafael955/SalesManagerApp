@@ -10,7 +10,7 @@ namespace SalesManagerApp.Domain.Services
 {
     public class ProductDomainService(IProductRepository productRepository) : IProductDomainService
     {
-        public ProductResponseDto? CriarProduto(ProductRequestDto request)
+        public ProductResponseDto CriarProduto(ProductRequestDto request)
         {
             var validation = new ProductValidator().Validate(request);
 
@@ -36,7 +36,7 @@ namespace SalesManagerApp.Domain.Services
             };
         }
 
-        public ProductResponseDto? AtualizarProduto(Guid? id, ProductRequestDto request)
+        public ProductResponseDto AtualizarProduto(Guid? id, ProductRequestDto request)
         {
             var product = productRepository.GetById(id.Value);
 
@@ -73,7 +73,7 @@ namespace SalesManagerApp.Domain.Services
             productRepository.Delete(product);
         }
 
-        public ProductResponseDto? ObterProdutoPorId(Guid? id)
+        public ProductResponseDto ObterProdutoPorId(Guid? id)
         {
             var product = productRepository.GetById(id.Value);
 

@@ -5,13 +5,13 @@ namespace SalesManagerApp.Domain.Interfaces.Services
 {
     public interface IProductDomainService
     {
-        ProductResponseDto? CriarProduto(ProductRequestDto request);
+        ProductResponseDto CriarProduto(ProductRequestDto request);
 
-        ProductResponseDto? AtualizarProduto(Guid? id, ProductRequestDto request);
+        ProductResponseDto AtualizarProduto(Guid? id, ProductRequestDto request);
 
         void ExcluirProduto(Guid? id);
 
-        ProductResponseDto? ObterProdutoPorId(Guid? id);
+        ProductResponseDto ObterProdutoPorId(Guid? id);
 
         ICollection<ProductResponseDto> ObterTodosProdutos();
     }
