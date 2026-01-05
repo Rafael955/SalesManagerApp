@@ -7,7 +7,7 @@ using SalesManagerApp.Domain.Dtos.Responses;
 using System.Net;
 using System.Net.Http.Json;
 
-namespace SalesManagerApp.Test.Tests
+namespace SalesManagerApp.Test.IntegrationTests
 {
     public class AuthTests
     {
@@ -64,9 +64,33 @@ namespace SalesManagerApp.Test.Tests
 
             var content = response.Content.ReadAsStringAsync()?.Result;
 
-            var errorMessageResponse = JsonConvert.DeserializeObject<ErrorResponseDto>(content);
+            var errorMessageResponse = JsonConvert.DeserializeObject<ErrorResponseDto>(content)!;
 
             errorMessageResponse.Message.Should().Be("Acesso negado. Credenciais inválidas.");
         }
+
+        [Fact(DisplayName = "Deve retornar erro ao informar dados inválidos")]
+        public void DeveRetornarErroAoInformarDadosInvalidos()
+        {
+            var request = new UserLoginRequestDto
+            {
+                Email = "emailinvalido",
+                Password = "senhafraca"
+            };
+
+            //Act : Enviando a requisição para a API
+            var response = _httpClient.PostAsJsonAsync("/api/auth/login", request).Result;
+
+            //Assert : Verificando se o resultado é sucesso HTTP 422 OK
+            response.StatusCode.Should().Be(HttpStatusCode.UnprocessableContent);
+
+            var content = response.Content.ReadAsStringAsync().Result;
+
+            List<ValidationErrorResponseDto> validationErrorResponseDto = JsonConvert.DeserializeObject<List<ValidationErrorResponseDto>>(content)!;
+
+            validationErrorResponseDto.Should().NotBeNull();
+            validationErrorResponseDto.Count.Should().BeGreaterThan(0);
+        }
+
     }
 }
