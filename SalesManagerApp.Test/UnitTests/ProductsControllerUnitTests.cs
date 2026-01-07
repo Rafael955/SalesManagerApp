@@ -31,7 +31,7 @@ namespace SalesManagerApp.Test.UnitTests
                 Quantity = 10
             };
 
-            var response = controller.Post(request) as ObjectResult;
+            var response = controller.CreateProduct(request) as ObjectResult;
 
             response.Should().NotBeNull();
             response!.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
@@ -60,7 +60,7 @@ namespace SalesManagerApp.Test.UnitTests
                 Quantity = 10
             };
 
-            var response = controller.Post(request) as ObjectResult;
+            var response = controller.CreateProduct(request) as ObjectResult;
 
             response.Should().NotBeNull();
             response!.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
@@ -95,7 +95,7 @@ namespace SalesManagerApp.Test.UnitTests
                 Quantity = 10
             };
 
-            var response = controller.Post(request) as ObjectResult;
+            var response = controller.CreateProduct(request) as ObjectResult;
 
             response.Should().NotBeNull();
             response!.StatusCode.Should().Be(StatusCodes.Status422UnprocessableEntity);
@@ -134,7 +134,7 @@ namespace SalesManagerApp.Test.UnitTests
                 Quantity = 5
             };
 
-            var objectResult = controller.Post(request) as ObjectResult;
+            var objectResult = controller.CreateProduct(request) as ObjectResult;
 
             objectResult.Should().NotBeNull();
             objectResult!.StatusCode.Should().Be(StatusCodes.Status201Created);
@@ -168,7 +168,7 @@ namespace SalesManagerApp.Test.UnitTests
             };
 
             mockService
-                .Setup(s => s.AtualizarProduto(It.IsAny<Guid?>(), It.IsAny<ProductRequestDto>()))
+                .Setup(s => s.AtualizarProduto(It.IsAny<Guid>(), It.IsAny<ProductRequestDto>()))
                 .Returns(productResponse);
 
             var controller = new ProductsController(mockService.Object);
@@ -180,7 +180,7 @@ namespace SalesManagerApp.Test.UnitTests
                 Quantity = 3
             };
 
-            var objectResult = controller.Put(productResponse.Id, request) as ObjectResult;
+            var objectResult = controller.UpdateProduct(productResponse.Id, request) as ObjectResult;
 
             objectResult.Should().NotBeNull();
             objectResult!.StatusCode.Should().Be(StatusCodes.Status200OK);
@@ -213,7 +213,7 @@ namespace SalesManagerApp.Test.UnitTests
             var mockService = new Mock<IProductDomainService>();
 
             mockService
-                .Setup(s => s.AtualizarProduto(It.IsAny<Guid?>(), It.IsAny<ProductRequestDto>()))
+                .Setup(s => s.AtualizarProduto(It.IsAny<Guid>(), It.IsAny<ProductRequestDto>()))
                 .Throws(validationException);
 
             var controller = new ProductsController(mockService.Object);
@@ -225,7 +225,7 @@ namespace SalesManagerApp.Test.UnitTests
                 Quantity = 1
             };
 
-            var objectResult = controller.Put(Guid.NewGuid(), request) as ObjectResult;
+            var objectResult = controller.UpdateProduct(Guid.NewGuid(), request) as ObjectResult;
 
             objectResult.Should().NotBeNull();
             objectResult!.StatusCode.Should().Be(StatusCodes.Status422UnprocessableEntity);
@@ -242,7 +242,7 @@ namespace SalesManagerApp.Test.UnitTests
             var mockService = new Mock<IProductDomainService>();
 
             mockService
-                .Setup(s => s.AtualizarProduto(It.IsAny<Guid?>(), It.IsAny<ProductRequestDto>()))
+                .Setup(s => s.AtualizarProduto(It.IsAny<Guid>(), It.IsAny<ProductRequestDto>()))
                 .Throws(new ApplicationException("Produto não encontrado"));
 
             var controller = new ProductsController(mockService.Object);
@@ -254,7 +254,7 @@ namespace SalesManagerApp.Test.UnitTests
                 Quantity = 1
             };
 
-            var objectResult = controller.Put(Guid.NewGuid(), request) as ObjectResult;
+            var objectResult = controller.UpdateProduct(Guid.NewGuid(), request) as ObjectResult;
 
             objectResult.Should().NotBeNull();
             objectResult!.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
@@ -270,13 +270,13 @@ namespace SalesManagerApp.Test.UnitTests
             var mockService = new Mock<IProductDomainService>();
 
             mockService
-                .Setup(s => s.ExcluirProduto(It.IsAny<Guid?>()))
+                .Setup(s => s.ExcluirProduto(It.IsAny<Guid>()))
                 .Verifiable();
 
             var controller = new ProductsController(mockService.Object);
 
             var id = Guid.NewGuid();
-            var result = controller.Delete(id);
+            var result = controller.DeleteProduct(id);
 
             var statusResult = result as StatusCodeResult;
             statusResult.Should().NotBeNull();
@@ -289,12 +289,12 @@ namespace SalesManagerApp.Test.UnitTests
             var mockService = new Mock<IProductDomainService>();
 
             mockService
-                .Setup(s => s.ExcluirProduto(It.IsAny<Guid?>()))
+                .Setup(s => s.ExcluirProduto(It.IsAny<Guid>()))
                 .Throws(new ApplicationException("Produto não existe"));
 
             var controller = new ProductsController(mockService.Object);
 
-            var objectResult = controller.Delete(Guid.NewGuid()) as ObjectResult;
+            var objectResult = controller.DeleteProduct(Guid.NewGuid()) as ObjectResult;
 
             objectResult.Should().NotBeNull();
             objectResult!.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
@@ -318,12 +318,12 @@ namespace SalesManagerApp.Test.UnitTests
             };
 
             mockService
-                .Setup(s => s.ObterProdutoPorId(It.IsAny<Guid?>()))
+                .Setup(s => s.ObterProdutoPorId(It.IsAny<Guid>()))
                 .Returns(productResponse);
 
             var controller = new ProductsController(mockService.Object);
 
-            var objectResult = controller.GetById(productResponse.Id) as ObjectResult;
+            var objectResult = controller.GetProductById(productResponse.Id) as ObjectResult;
 
             objectResult.Should().NotBeNull();
             objectResult!.StatusCode.Should().Be(StatusCodes.Status200OK);
@@ -339,12 +339,12 @@ namespace SalesManagerApp.Test.UnitTests
             var mockService = new Mock<IProductDomainService>();
 
             mockService
-                .Setup(s => s.ObterProdutoPorId(It.IsAny<Guid?>()))
+                .Setup(s => s.ObterProdutoPorId(It.IsAny<Guid>()))
                 .Throws(new ApplicationException("Produto não existe"));
 
             var controller = new ProductsController(mockService.Object);
 
-            var objectResult = controller.GetById(Guid.NewGuid()) as ObjectResult;
+            var objectResult = controller.GetProductById(Guid.NewGuid()) as ObjectResult;
 
             objectResult.Should().NotBeNull();
             objectResult!.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
@@ -371,7 +371,7 @@ namespace SalesManagerApp.Test.UnitTests
 
             var controller = new ProductsController(mockService.Object);
 
-            var objectResult = controller.Get() as ObjectResult;
+            var objectResult = controller.ListProducts() as ObjectResult;
 
             objectResult.Should().NotBeNull();
             objectResult!.StatusCode.Should().Be(StatusCodes.Status200OK);
@@ -392,7 +392,7 @@ namespace SalesManagerApp.Test.UnitTests
 
             var controller = new ProductsController(mockService.Object);
 
-            var objectResult = controller.Get() as ObjectResult;
+            var objectResult = controller.ListProducts() as ObjectResult;
 
             objectResult.Should().NotBeNull();
             objectResult!.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);

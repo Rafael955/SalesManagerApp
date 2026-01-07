@@ -30,7 +30,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Quantity = faker.Random.Int(1, 100)
             };
 
-            var response = _httpClient.PostAsJsonAsync("api/products/create-product", request).Result;
+            var response = _httpClient.PostAsJsonAsync("api/products", request).Result;
 
             response.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -60,7 +60,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Quantity = -1
             };
 
-            var response = _httpClient.PostAsJsonAsync("api/products/create-product", invalidRequest).Result;
+            var response = _httpClient.PostAsJsonAsync("api/products", invalidRequest).Result;
 
             response.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
 
@@ -83,7 +83,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Quantity = 10
             };
 
-            var responseCreated = _httpClient.PostAsJsonAsync("api/products/create-product", createRequest).Result;
+            var responseCreated = _httpClient.PostAsJsonAsync("api/products", createRequest).Result;
 
             responseCreated.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -100,7 +100,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Quantity = 20
             };
 
-            var responseUpdate = _httpClient.PutAsJsonAsync($"api/products/update-product/{productCreatedResponseDto.Id}", updateRequest).Result;
+            var responseUpdate = _httpClient.PutAsJsonAsync($"api/products/{productCreatedResponseDto.Id}", updateRequest).Result;
 
             responseUpdate.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -133,7 +133,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Quantity = 10
             };
 
-            var responseCreated = _httpClient.PostAsJsonAsync("api/products/create-product", createRequest).Result;
+            var responseCreated = _httpClient.PostAsJsonAsync("api/products", createRequest).Result;
             responseCreated.StatusCode.Should().Be(HttpStatusCode.Created);
 
             var contentCreated = responseCreated.Content.ReadAsStringAsync().Result;
@@ -149,7 +149,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Quantity = -5
             };
 
-            var responseUpdate = _httpClient.PutAsJsonAsync($"api/products/update-product/{created.Id}", invalidUpdate).Result;
+            var responseUpdate = _httpClient.PutAsJsonAsync($"api/products/{created.Id}", invalidUpdate).Result;
             
             responseUpdate.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
 
@@ -175,7 +175,7 @@ namespace SalesManagerApp.Test.IntegrationTests
 
             var randomId = Guid.NewGuid();
 
-            var response = _httpClient.PutAsJsonAsync($"api/products/update-product/{randomId}", updateRequest).Result;
+            var response = _httpClient.PutAsJsonAsync($"api/products/{randomId}", updateRequest).Result;
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
@@ -199,7 +199,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Quantity = 10
             };
 
-            var responseCreated = _httpClient.PostAsJsonAsync("api/products/create-product", createRequest).Result;
+            var responseCreated = _httpClient.PostAsJsonAsync("api/products", createRequest).Result;
             
             responseCreated.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -209,7 +209,7 @@ namespace SalesManagerApp.Test.IntegrationTests
 
             ProductResponseDto productCreatedResponseDto = JsonConvert.DeserializeObject<ProductResponseDto>(objetoCreated.data.ToString());
 
-            var responseDeleted = _httpClient.DeleteAsync($"api/products/delete-product/{productCreatedResponseDto.Id}").Result;
+            var responseDeleted = _httpClient.DeleteAsync($"api/products/{productCreatedResponseDto.Id}").Result;
 
             responseDeleted.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -219,7 +219,7 @@ namespace SalesManagerApp.Test.IntegrationTests
         {
             var randomId = Guid.NewGuid();
 
-            var response = _httpClient.DeleteAsync($"api/products/delete-product/{randomId}").Result;
+            var response = _httpClient.DeleteAsync($"api/products/{randomId}").Result;
             
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
@@ -244,7 +244,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Quantity = 10
             };
 
-            var responseCreated = _httpClient.PostAsJsonAsync("api/products/create-product", createRequest).Result;
+            var responseCreated = _httpClient.PostAsJsonAsync("api/products", createRequest).Result;
 
             responseCreated.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -254,7 +254,7 @@ namespace SalesManagerApp.Test.IntegrationTests
 
             ProductResponseDto created = JsonConvert.DeserializeObject<ProductResponseDto>(objetoCreated.data.ToString());
 
-            var responseGet = _httpClient.GetAsync($"api/products/get-product/{created.Id}").Result;
+            var responseGet = _httpClient.GetAsync($"api/products/{created.Id}").Result;
 
             responseGet.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -274,7 +274,7 @@ namespace SalesManagerApp.Test.IntegrationTests
         {
             var randomId = Guid.NewGuid();
 
-            var response = _httpClient.GetAsync($"api/products/get-product/{randomId}").Result;
+            var response = _httpClient.GetAsync($"api/products/{randomId}").Result;
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
@@ -289,7 +289,7 @@ namespace SalesManagerApp.Test.IntegrationTests
         [Fact(DisplayName = "Deve retornar StatusCode 400 para id mal formado na rota")]
         public void DeveRetornarStatusCode400ParaIdMalFormadoNaRota()
         {
-            var response = _httpClient.GetAsync($"api/products/get-product/abc").Result;
+            var response = _httpClient.GetAsync($"api/products/abc").Result;
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -308,12 +308,12 @@ namespace SalesManagerApp.Test.IntegrationTests
                     Quantity = faker.Random.Int(1, 100)
                 };
 
-                var response = _httpClient.PostAsJsonAsync("api/products/create-product", request).Result;
+                var response = _httpClient.PostAsJsonAsync("api/products", request).Result;
 
                 response.StatusCode.Should().Be(HttpStatusCode.Created);
             }
 
-            var responseList = _httpClient.GetAsync("api/products/list-products").Result;
+            var responseList = _httpClient.GetAsync("api/products").Result;
 
             responseList.StatusCode.Should().Be(HttpStatusCode.OK);
 

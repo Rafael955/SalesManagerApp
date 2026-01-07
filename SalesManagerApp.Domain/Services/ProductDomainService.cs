@@ -4,6 +4,7 @@ using SalesManagerApp.Domain.Dtos.Responses;
 using SalesManagerApp.Domain.Entities;
 using SalesManagerApp.Domain.Interfaces.Repositories;
 using SalesManagerApp.Domain.Interfaces.Services;
+using SalesManagerApp.Domain.Mappers;
 using SalesManagerApp.Domain.Validations;
 
 namespace SalesManagerApp.Domain.Services
@@ -27,18 +28,12 @@ namespace SalesManagerApp.Domain.Services
 
             productRepository.Add(product);
 
-            return new ProductResponseDto
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Price = product.Price,
-                Quantity = product.Quantity
-            };
+            return product.MapToResponseDto();
         }
 
-        public ProductResponseDto AtualizarProduto(Guid? id, ProductRequestDto request)
+        public ProductResponseDto AtualizarProduto(Guid id, ProductRequestDto request)
         {
-            var product = productRepository.GetById(id.Value);
+            var product = productRepository.GetById(id);
 
             if (product == null)
                 throw new ApplicationException("O produto com este Id não existe!");
@@ -54,18 +49,12 @@ namespace SalesManagerApp.Domain.Services
 
             productRepository.Update(product);
 
-            return new ProductResponseDto
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Price = product.Price,
-                Quantity = product.Quantity
-            };
+            return product.MapToResponseDto();
         }
 
-        public void ExcluirProduto(Guid? id)
+        public void ExcluirProduto(Guid id)
         {
-            var product = productRepository.GetById(id.Value);
+            var product = productRepository.GetById(id);
 
             if (product == null)
                 throw new ApplicationException("O produto com este Id não existe!");
@@ -73,40 +62,19 @@ namespace SalesManagerApp.Domain.Services
             productRepository.Delete(product);
         }
 
-        public ProductResponseDto ObterProdutoPorId(Guid? id)
+        public ProductResponseDto ObterProdutoPorId(Guid id)
         {
-            var product = productRepository.GetById(id.Value);
+            var product = productRepository.GetById(id);
 
             if (product == null)
                 throw new ApplicationException("O produto com este Id não existe!");
 
-            return new ProductResponseDto
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Price = product.Price,
-                Quantity = product.Quantity
-            };
+            return product.MapToResponseDto();
         }
 
         public ICollection<ProductResponseDto> ObterTodosProdutos()
         {
-            var products = productRepository.GetAll();
-
-            List<ProductResponseDto> listProductsDto = new List<ProductResponseDto>();
-
-            foreach (var product in products)
-            {
-                listProductsDto.Add(new ProductResponseDto
-                {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Price = product.Price,
-                    Quantity = product.Quantity
-                });
-            }
-
-            return listProductsDto;
+            return productRepository.GetAll().Select(product => product.MapToResponseDto()).ToList();
         }
     }
 }

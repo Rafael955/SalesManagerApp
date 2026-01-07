@@ -7,11 +7,11 @@ namespace SalesManagerApp.Domain.Interfaces.Services
     {
         CustomerResponseDto RegistrarCliente(CustomerRequestDto request);
 
-        CustomerResponseDto AtualizarCliente(Guid? id, CustomerRequestDto request);
+        CustomerResponseDto AtualizarCliente(Guid id, CustomerRequestDto request);
 
-        void ExcluirCliente(Guid? id);
+        void ExcluirCliente(Guid id);
 
-        CustomerResponseDto ObterClientePorId(Guid? id);
+        CustomerResponseDto ObterClientePorId(Guid id);
 
         ICollection<CustomerResponseDto> ObterTodosClientes();
     }

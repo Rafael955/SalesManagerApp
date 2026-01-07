@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 using SalesManagerApp.Domain.Dtos.Requests;
 using SalesManagerApp.Domain.Dtos.Responses;
 using SalesManagerApp.Domain.Enums;
+using System;
 using System.Net;
 using System.Net.Http.Json;
 using System.Text;
@@ -34,7 +35,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Phone = _faker.Phone.PhoneNumberFormat(0)
             };
 
-            var responseCustomer = _httpClient.PostAsJsonAsync("api/customers/register-customer", customerRequest).Result;
+            var responseCustomer = _httpClient.PostAsJsonAsync("api/customers", customerRequest).Result;
             responseCustomer.StatusCode.Should().Be(HttpStatusCode.Created);
 
             var contentCustomer = responseCustomer.Content.ReadAsStringAsync().Result;
@@ -51,7 +52,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Quantity = 10
             };
 
-            var responseProduct = _httpClient.PostAsJsonAsync("api/products/create-product", productRequest).Result;
+            var responseProduct = _httpClient.PostAsJsonAsync("api/products", productRequest).Result;
 
             responseProduct.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -75,7 +76,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 }
             };
 
-            var responseOrder = _httpClient.PostAsJsonAsync("api/orders/create-order", orderRequest).Result;
+            var responseOrder = _httpClient.PostAsJsonAsync("api/orders", orderRequest).Result;
 
             responseOrder.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -106,7 +107,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 OrderItems = new List<CreateOrderItemRequestDto>() // vazio
             };
 
-            var response = _httpClient.PostAsJsonAsync("api/orders/create-order", invalidRequest).Result;
+            var response = _httpClient.PostAsJsonAsync("api/orders", invalidRequest).Result;
 
             response.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
 
@@ -131,7 +132,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Phone = _faker.Phone.PhoneNumberFormat(0)
             };
 
-            var responseCustomer = _httpClient.PostAsJsonAsync("api/customers/register-customer", customerRequest).Result;
+            var responseCustomer = _httpClient.PostAsJsonAsync("api/customers", customerRequest).Result;
 
             responseCustomer.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -147,7 +148,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Quantity = 10
             };
 
-            var responseProduct = _httpClient.PostAsJsonAsync("api/products/create-product", productRequest).Result;
+            var responseProduct = _httpClient.PostAsJsonAsync("api/products", productRequest).Result;
 
             responseProduct.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -165,7 +166,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 }
             };
 
-            var responseOrder = _httpClient.PostAsJsonAsync("api/orders/create-order", orderRequest).Result;
+            var responseOrder = _httpClient.PostAsJsonAsync("api/orders", orderRequest).Result;
 
             responseOrder.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -176,10 +177,10 @@ namespace SalesManagerApp.Test.IntegrationTests
             // Atualizar status do pedido
             var updateRequest = new UpdateOrderStatusRequestDto 
             { 
-                OrderStatus = (int)OrderStatus.Approved
+                Status = OrderStatus.Approved
             }; 
 
-            var responseUpdate = _httpClient.PutAsJsonAsync($"api/orders/update-order-status/{orderResponse.Id}", updateRequest).Result;
+            var responseUpdate = _httpClient.PatchAsJsonAsync($"api/orders/{orderResponse.Id}/status", updateRequest).Result;
 
             responseUpdate.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -189,7 +190,7 @@ namespace SalesManagerApp.Test.IntegrationTests
 
             string message = objetoUpdate.message?.ToString();
 
-            message.Should().Be("Pedido criado com sucesso");
+            message.Should().Be("Status do pedido atualizado com sucesso");
 
             OrderResponseDto updatedOrder = JsonConvert.DeserializeObject<OrderResponseDto>(objetoUpdate.data.ToString());
 
@@ -211,7 +212,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Phone = _faker.Phone.PhoneNumberFormat(0)
             };
 
-            var responseCustomer = _httpClient.PostAsJsonAsync("api/customers/register-customer", customerRequest).Result;
+            var responseCustomer = _httpClient.PostAsJsonAsync("api/customers", customerRequest).Result;
 
             responseCustomer.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -226,7 +227,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Quantity = 10
             };
 
-            var responseProduct = _httpClient.PostAsJsonAsync("api/products/create-product", productRequest).Result;
+            var responseProduct = _httpClient.PostAsJsonAsync("api/products", productRequest).Result;
 
             responseProduct.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -247,7 +248,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 }
             };
 
-            var responseOrder = _httpClient.PostAsJsonAsync("api/orders/create-order", orderRequest).Result;
+            var responseOrder = _httpClient.PostAsJsonAsync("api/orders", orderRequest).Result;
 
             responseOrder.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -261,10 +262,10 @@ namespace SalesManagerApp.Test.IntegrationTests
             // Enviar status inválido
             var invalidUpdate = new UpdateOrderStatusRequestDto 
             { 
-                OrderStatus = 999 
+                Status = (OrderStatus)999 
             };
 
-            var responseUpdate = _httpClient.PutAsJsonAsync($"api/orders/update-order-status/{orderResponse.Id}", invalidUpdate).Result;
+            var responseUpdate = _httpClient.PatchAsJsonAsync($"api/orders/{orderResponse.Id}/status", invalidUpdate).Result;
 
             responseUpdate.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
 
@@ -289,7 +290,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Phone = _faker.Phone.PhoneNumberFormat(0)
             };
 
-            var responseCustomer = _httpClient.PostAsJsonAsync("api/customers/register-customer", customerRequest).Result;
+            var responseCustomer = _httpClient.PostAsJsonAsync("api/customers", customerRequest).Result;
 
             responseCustomer.StatusCode.Should().Be(HttpStatusCode.Created);
             
@@ -305,7 +306,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Quantity = 10
             };
 
-            var responseProduct = _httpClient.PostAsJsonAsync("api/products/create-product", productRequest).Result;
+            var responseProduct = _httpClient.PostAsJsonAsync("api/products", productRequest).Result;
 
             responseProduct.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -330,15 +331,20 @@ namespace SalesManagerApp.Test.IntegrationTests
                 }
             };
 
-            var responseOrder = _httpClient.PostAsJsonAsync("api/orders/create-order", orderRequest).Result;
+            var responseOrder = _httpClient.PostAsJsonAsync("api/orders", orderRequest).Result;
 
             responseOrder.StatusCode.Should().Be(HttpStatusCode.Created);
 
             var orderObj = JsonConvert.DeserializeObject<dynamic>(responseOrder.Content.ReadAsStringAsync().Result);
             OrderResponseDto orderResponse = JsonConvert.DeserializeObject<OrderResponseDto>((orderObj.data ?? orderObj.Data).ToString());
 
+            var updateRequest = new UpdateOrderStatusRequestDto
+            {
+                Status = OrderStatus.Cancelled,
+            };
+
             // Cancelar pedido
-            var responseCancel = _httpClient.DeleteAsync($"api/orders/cancel-order/{orderResponse.Id}").Result;
+            var responseCancel = _httpClient.PatchAsJsonAsync($"api/orders/{orderResponse.Id}/status", updateRequest).Result;
             responseCancel.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var contentCancel = responseCancel.Content.ReadAsStringAsync().Result;
@@ -358,7 +364,12 @@ namespace SalesManagerApp.Test.IntegrationTests
         {
             var randomId = Guid.NewGuid();
 
-            var response = _httpClient.DeleteAsync($"api/orders/cancel-order/{randomId}").Result;
+            var updateRequest = new UpdateOrderStatusRequestDto
+            {
+                Status = OrderStatus.Cancelled,
+            };
+
+            var response = _httpClient.PatchAsJsonAsync($"api/orders/{randomId}/status", updateRequest).Result;
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
@@ -384,7 +395,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Phone = _faker.Phone.PhoneNumberFormat(0)
             };
 
-            var responseCustomer = _httpClient.PostAsJsonAsync("api/customers/register-customer", customerRequest).Result;
+            var responseCustomer = _httpClient.PostAsJsonAsync("api/customers", customerRequest).Result;
 
             responseCustomer.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -399,7 +410,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Quantity = 10
             };
 
-            var responseProduct = _httpClient.PostAsJsonAsync("api/products/create-product", productRequest).Result;
+            var responseProduct = _httpClient.PostAsJsonAsync("api/products", productRequest).Result;
 
             responseProduct.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -420,7 +431,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 }
             };
 
-            var responseOrder = _httpClient.PostAsJsonAsync("api/orders/create-order", orderRequest).Result;
+            var responseOrder = _httpClient.PostAsJsonAsync("api/orders", orderRequest).Result;
 
             responseOrder.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -431,12 +442,17 @@ namespace SalesManagerApp.Test.IntegrationTests
             OrderResponseDto orderResponse = JsonConvert.DeserializeObject<OrderResponseDto>(orderObj.data.ToString());
 
             // Cancelar primeira vez
-            var responseCancel1 = _httpClient.DeleteAsync($"api/orders/cancel-order/{orderResponse.Id}").Result;
+            var updateRequest = new UpdateOrderStatusRequestDto
+            {
+                Status = OrderStatus.Cancelled,
+            };
+
+            var responseCancel1 = _httpClient.PatchAsJsonAsync($"api/orders/{orderResponse.Id}/status", updateRequest).Result;
 
             responseCancel1.StatusCode.Should().Be(HttpStatusCode.OK);
 
             // Cancelar segunda vez -> deve falhar
-            var responseCancel2 = _httpClient.DeleteAsync($"api/orders/cancel-order/{orderResponse.Id}").Result;
+            var responseCancel2 = _httpClient.PatchAsJsonAsync($"api/orders/{orderResponse.Id}/status", updateRequest).Result;
 
             responseCancel2.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
@@ -446,7 +462,7 @@ namespace SalesManagerApp.Test.IntegrationTests
 
             errorResponse.Should().NotBeNull();
             errorResponse!.Message.Should().NotBeNullOrWhiteSpace();
-            errorResponse!.Message.Should().Be("O pedido já está cancelado!");
+            errorResponse!.Message.Should().Be("Não será possível atualizar os status do pedido pois este pedido foi cancelado!");
         }
 
         [Fact(DisplayName = "Deve retornar uma lista de pedidos com sucesso")]
@@ -462,7 +478,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Phone = _faker.Phone.PhoneNumberFormat(0)
             };
 
-            var responseCustomer = _httpClient.PostAsJsonAsync("api/customers/register-customer", customerRequest).Result;
+            var responseCustomer = _httpClient.PostAsJsonAsync("api/customers", customerRequest).Result;
 
             responseCustomer.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -477,7 +493,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Quantity = 100
             };
 
-            var responseProduct = _httpClient.PostAsJsonAsync("api/products/create-product", productRequest).Result;
+            var responseProduct = _httpClient.PostAsJsonAsync("api/products", productRequest).Result;
 
             responseProduct.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -501,11 +517,11 @@ namespace SalesManagerApp.Test.IntegrationTests
                     }
                 };
 
-                var responseOrder = _httpClient.PostAsJsonAsync("api/orders/create-order", orderRequest).Result;
+                var responseOrder = _httpClient.PostAsJsonAsync("api/orders", orderRequest).Result;
                 responseOrder.StatusCode.Should().Be(HttpStatusCode.Created);
             }
 
-            var responseList = _httpClient.GetAsync($"api/orders/list-orders?pageNumber=1&pageSize=10").Result;
+            var responseList = _httpClient.GetAsync($"api/orders?pageNumber=1&pageSize=10").Result;
             responseList.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var content = responseList.Content.ReadAsStringAsync().Result;
@@ -524,11 +540,11 @@ namespace SalesManagerApp.Test.IntegrationTests
             // Atualizar status do pedido
             var updateRequest = new UpdateOrderStatusRequestDto
             {
-                OrderStatus = (int)OrderStatus.Approved
+                Status = OrderStatus.Approved
             };
 
             // Rota espera Guid no path; enviar 'abc' deve retornar 400
-            var response = _httpClient.PutAsJsonAsync($"api/orders/update-order-status/abc", updateRequest).Result;
+            var response = _httpClient.PatchAsJsonAsync($"api/orders/abc/status", updateRequest).Result;
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }

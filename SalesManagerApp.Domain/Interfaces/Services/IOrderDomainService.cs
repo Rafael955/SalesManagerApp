@@ -7,11 +7,10 @@ namespace SalesManagerApp.Domain.Interfaces.Services
     {
         OrderResponseDto CriarPedido(CreateOrderRequestDto request);
 
-        OrderResponseDto CancelarPedido(Guid? id);
-
-        OrderResponseDto AtualizarStatusDoPedido(Guid? id, UpdateOrderStatusRequestDto request);
+        OrderResponseDto AtualizarStatusDoPedido(Guid id, UpdateOrderStatusRequestDto request);
         
         ICollection<OrderResponseDto> ListarPedidos(int pageNumber, int pageSize);
 
+        OrderResponseDto ObterPedidoPorId(Guid id);
     }
 }

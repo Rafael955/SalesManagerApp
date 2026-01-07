@@ -12,12 +12,12 @@ namespace SalesManagerApp.Controllers
     [ApiController]
     public class CustomersController(ICustomerDomainService customerDomainService) : ControllerBase
     {
-        [HttpPost("register-customer")]
+        [HttpPost]
         [ProducesResponseType(typeof(CustomerResponseDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(IEnumerable<ValidationErrorResponseDto>), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status500InternalServerError)]
-        public IActionResult Post([FromBody] CustomerRequestDto request)
+        public IActionResult RegisterCustomer([FromBody] CustomerRequestDto request)
         {
             try
             {
@@ -55,12 +55,12 @@ namespace SalesManagerApp.Controllers
             }
         }
 
-        [HttpPut("update-customer/{id}")]
+        [HttpPut("{id}")]
         [ProducesResponseType(typeof(CustomerResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IEnumerable<ValidationErrorResponseDto>), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status500InternalServerError)]
-        public IActionResult Put([FromRoute] Guid id, [FromBody] CustomerRequestDto request)
+        public IActionResult UpdateCustomer([FromRoute] Guid id, [FromBody] CustomerRequestDto request)
         {
             try
             {
@@ -98,11 +98,11 @@ namespace SalesManagerApp.Controllers
             }
         }
 
-        [HttpDelete("delete-customer/{id}")]
+        [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status500InternalServerError)]
-        public IActionResult Delete([FromRoute] Guid id)
+        public IActionResult DeleteCustomer([FromRoute] Guid id)
         {
             try
             {
@@ -126,11 +126,11 @@ namespace SalesManagerApp.Controllers
             }
         }
 
-        [HttpGet("get-customer/{id}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(CustomerResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status500InternalServerError)]
-        public IActionResult GetById([FromRoute] Guid id)
+        public IActionResult GetCustomerById([FromRoute] Guid id)
         {
             try
             {
@@ -154,11 +154,11 @@ namespace SalesManagerApp.Controllers
             }
         }
 
-        [HttpGet("list-customers")]
+        [HttpGet]
         [ProducesResponseType(typeof(CustomerResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status500InternalServerError)]
-        public IActionResult Get()
+        public IActionResult ListCustomers()
         {
             try
             {

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SalesManagerApp.Domain.Dtos.Requests;
 using SalesManagerApp.Domain.Dtos.Responses;
+using SalesManagerApp.Domain.Enums;
 using SalesManagerApp.Domain.Interfaces.Services;
 
 namespace SalesManagerApp.Controllers
@@ -12,7 +13,7 @@ namespace SalesManagerApp.Controllers
     [ApiController]
     public class OrdersController(IOrderDomainService orderDomainService) : ControllerBase
     {
-        [HttpPost("create-order")]
+        [HttpPost]
         [ProducesResponseType(typeof(OrderResponseDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(IEnumerable<ValidationErrorResponseDto>), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status400BadRequest)]
@@ -55,7 +56,7 @@ namespace SalesManagerApp.Controllers
             }
         }
 
-        [HttpPut("update-order-status/{id}")]
+        [HttpPatch("{id}/status")]
         [ProducesResponseType(typeof(OrderResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IEnumerable<ValidationErrorResponseDto>), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status400BadRequest)]
@@ -68,7 +69,7 @@ namespace SalesManagerApp.Controllers
 
                 return StatusCode(StatusCodes.Status200OK, new
                 {
-                    Message = "Pedido criado com sucesso",
+                    Message = request.Status == OrderStatus.Cancelled ? "Pedido cancelado com sucesso" : "Status do pedido atualizado com sucesso",
                     Data = result
                 });
             }
@@ -98,21 +99,16 @@ namespace SalesManagerApp.Controllers
             }
         }
 
-        [HttpDelete("cancel-order/{id}")]
+        [HttpGet]
         [ProducesResponseType(typeof(OrderResponseDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status500InternalServerError)]
-        public IActionResult CancelOrder(Guid? id)
+        public IActionResult ListOrders([FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             try
             {
-                var result = orderDomainService.CancelarPedido(id);
+                var result = orderDomainService.ListarPedidos(pageNumber, pageSize);
 
-                return StatusCode(StatusCodes.Status200OK, new
-                {
-                    Message = "Pedido cancelado com sucesso",
-                    Data = result
-                });
+                return StatusCode(StatusCodes.Status200OK, result);
             }
             catch (ApplicationException ex)
             {
@@ -130,14 +126,14 @@ namespace SalesManagerApp.Controllers
             }
         }
 
-        [HttpGet("list-orders")]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(OrderResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status500InternalServerError)]
-        public IActionResult ListOrders([FromQuery] int pageNumber, [FromQuery] int pageSize)
+        public IActionResult GetOrderById(Guid id)
         {
             try
             {
-                var result = orderDomainService.ListarPedidos(pageNumber, pageSize);
+                var result = orderDomainService.ObterPedidoPorId(id);
 
                 return StatusCode(StatusCodes.Status200OK, result);
             }

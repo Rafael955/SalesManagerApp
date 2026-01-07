@@ -4,6 +4,7 @@ using SalesManagerApp.Domain.Dtos.Responses;
 using SalesManagerApp.Domain.Helpers;
 using SalesManagerApp.Domain.Interfaces.Repositories;
 using SalesManagerApp.Domain.Interfaces.Services;
+using SalesManagerApp.Domain.Mappers;
 using SalesManagerApp.Domain.Validations;
 using System.Security.Authentication;
 
@@ -23,14 +24,7 @@ namespace SalesManagerApp.Domain.Services
             if(userData == null)
                 throw new AuthenticationException("Acesso negado. Credenciais inválidas.");
 
-            return new UserLoginResponseDto
-            {
-                Id = userData.Id,
-                Name = userData.Name,
-                Email = userData.Email,
-                Role = userData.Role.GetDescription(),
-                AccessToken = JwtTokenHelper.GenerateToken(userData.Email!, userData.Role.GetDescription())
-            };
+            return userData.MapToResponseDto();
         }
     }
 }

@@ -30,7 +30,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Phone = _faker.Phone.PhoneNumberFormat(0)
             };
 
-            var response = _httpClient.PostAsJsonAsync("api/customers/register-customer", request).Result;
+            var response = _httpClient.PostAsJsonAsync("api/customers", request).Result;
 
             response.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -61,7 +61,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Phone = ""
             };
 
-            var response = _httpClient.PostAsJsonAsync("api/customers/register-customer", request).Result;
+            var response = _httpClient.PostAsJsonAsync("api/customers", request).Result;
 
             response.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
 
@@ -85,7 +85,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Phone = _faker.Phone.PhoneNumberFormat(0)
             };
 
-            var response = _httpClient.PostAsJsonAsync("api/customers/register-customer", request).Result;
+            var response = _httpClient.PostAsJsonAsync("api/customers", request).Result;
 
             response.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -98,7 +98,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Phone = _faker.Phone.PhoneNumberFormat(0)
             };
 
-            var response2 = _httpClient.PostAsJsonAsync("api/customers/register-customer", request2).Result;
+            var response2 = _httpClient.PostAsJsonAsync("api/customers", request2).Result;
 
             response2.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
@@ -121,7 +121,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Phone = _faker.Phone.PhoneNumberFormat(0)
             };
 
-            var response = _httpClient.PostAsJsonAsync("api/customers/register-customer", request).Result;
+            var response = _httpClient.PostAsJsonAsync("api/customers", request).Result;
 
             response.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -137,7 +137,7 @@ namespace SalesManagerApp.Test.IntegrationTests
             request.Email = _faker.Person.Email;
             request.Phone = _faker.Phone.PhoneNumberFormat(0);
 
-            var responseUpdate = _httpClient.PutAsJsonAsync($"api/customers/update-customer/{customerResponse.Id}", request).Result;
+            var responseUpdate = _httpClient.PutAsJsonAsync($"api/customers/{customerResponse.Id}", request).Result;
 
             responseUpdate.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -170,7 +170,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Phone = _faker.Phone.PhoneNumberFormat(0)
             };
 
-            var response = _httpClient.PostAsJsonAsync("api/customers/register-customer", request).Result;
+            var response = _httpClient.PostAsJsonAsync("api/customers", request).Result;
 
             response.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -183,7 +183,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Phone = _faker.Phone.PhoneNumberFormat(0)
             };
 
-            var response2 = _httpClient.PostAsJsonAsync("api/customers/register-customer", request2).Result;
+            var response2 = _httpClient.PostAsJsonAsync("api/customers", request2).Result;
 
             response2.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -197,7 +197,7 @@ namespace SalesManagerApp.Test.IntegrationTests
             request2.Email = request.Email; // Mesmo email do primeiro cadastro
 
 
-            var responseUpdate = _httpClient.PutAsJsonAsync($"api/customers/update-customer/{customerResponse2.Id}", request2).Result;
+            var responseUpdate = _httpClient.PutAsJsonAsync($"api/customers/{customerResponse2.Id}", request2).Result;
 
             responseUpdate.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
@@ -220,7 +220,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Phone = _faker.Phone.PhoneNumberFormat(0)
             };
 
-            var response = _httpClient.PostAsJsonAsync("api/customers/register-customer", request).Result;
+            var response = _httpClient.PostAsJsonAsync("api/customers", request).Result;
 
             response.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -238,7 +238,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Phone = ""
             };
 
-            var responseUpdate = _httpClient.PutAsJsonAsync($"api/customers/update-customer/{customerResponse.Id}", invalidRequest).Result;
+            var responseUpdate = _httpClient.PutAsJsonAsync($"api/customers/{customerResponse.Id}", invalidRequest).Result;
 
             responseUpdate.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
 
@@ -264,7 +264,7 @@ namespace SalesManagerApp.Test.IntegrationTests
 
             var randomId = Guid.NewGuid();
 
-            var responseUpdate = _httpClient.PutAsJsonAsync($"api/customers/update-customer/{randomId}", invalidRequest).Result;
+            var responseUpdate = _httpClient.PutAsJsonAsync($"api/customers/{randomId}", invalidRequest).Result;
 
             responseUpdate.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
@@ -288,7 +288,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Phone = _faker.Phone.PhoneNumberFormat(0)
             };
 
-            var response = _httpClient.PostAsJsonAsync("api/customers/register-customer", request).Result;
+            var response = _httpClient.PostAsJsonAsync("api/customers", request).Result;
 
             response.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -298,7 +298,7 @@ namespace SalesManagerApp.Test.IntegrationTests
 
             CustomerResponseDto customerResponse = JsonConvert.DeserializeObject<CustomerResponseDto>(objeto.data.ToString());
 
-            var responseDelete = _httpClient.DeleteAsync($"api/customers/delete-customer/{customerResponse.Id}").Result;
+            var responseDelete = _httpClient.DeleteAsync($"api/customers/{customerResponse.Id}").Result;
 
             responseDelete.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
@@ -308,7 +308,7 @@ namespace SalesManagerApp.Test.IntegrationTests
         {
             var randomId = Guid.NewGuid();
 
-            var response = _httpClient.DeleteAsync($"api/customers/delete-customer/{randomId}").Result;
+            var response = _httpClient.DeleteAsync($"api/customers/{randomId}").Result;
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
@@ -332,7 +332,7 @@ namespace SalesManagerApp.Test.IntegrationTests
                 Phone = _faker.Phone.PhoneNumberFormat(0)
             };
 
-            var response = _httpClient.PostAsJsonAsync("api/customers/register-customer", request).Result;
+            var response = _httpClient.PostAsJsonAsync("api/customers", request).Result;
 
             response.StatusCode.Should().Be(HttpStatusCode.Created);
 
@@ -342,13 +342,13 @@ namespace SalesManagerApp.Test.IntegrationTests
 
             CustomerResponseDto customerResponse = JsonConvert.DeserializeObject<CustomerResponseDto>(objeto.data.ToString());
 
-            var responseGet = _httpClient.GetAsync($"api/customers/get-customer/{customerResponse.Id}").Result;
+            var responseGet = _httpClient.GetAsync($"api/customers/{customerResponse.Id}").Result;
 
             responseGet.StatusCode.Should().Be(HttpStatusCode.OK);
 
             content = responseGet.Content.ReadAsStringAsync().Result;
 
-            CustomerResponseDto customerResponseGet = JsonConvert.DeserializeObject<CustomerResponseDto>(content);
+            CustomerResponseDto customerResponseGet = JsonConvert.DeserializeObject<CustomerResponseDto>(content)!;
 
             customerResponseGet.Should().NotBeNull();
             customerResponseGet!.Id.Should().Be(customerResponse.Id);
@@ -363,7 +363,7 @@ namespace SalesManagerApp.Test.IntegrationTests
         {
             var randomId = Guid.NewGuid();
 
-            var response = _httpClient.GetAsync($"api/customers/get-customer/{randomId}").Result;
+            var response = _httpClient.GetAsync($"api/customers/{randomId}").Result;
 
             // O controller converte ApplicationException em 400
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -379,7 +379,7 @@ namespace SalesManagerApp.Test.IntegrationTests
         [Fact(DisplayName = "Deve retornar StatusCode 400 para id mal formado na rota")]
         public void DeveRetornarStatusCode400ParaIdMalFormadoNaRota()
         {
-            var response = _httpClient.GetAsync($"api/customers/get-customer/abc").Result;
+            var response = _httpClient.GetAsync($"api/customers/abc").Result;
 
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -400,18 +400,18 @@ namespace SalesManagerApp.Test.IntegrationTests
                     Phone = _faker.Phone.PhoneNumberFormat(0)
                 };
                 
-                var response = _httpClient.PostAsJsonAsync("api/customers/register-customer", request).Result;
+                var response = _httpClient.PostAsJsonAsync("api/customers", request).Result;
 
                 response.StatusCode.Should().Be(HttpStatusCode.Created);
             }
 
-            var responseList = _httpClient.GetAsync($"api/customers/list-customers").Result;
+            var responseList = _httpClient.GetAsync($"api/customers").Result;
 
             responseList.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var content = responseList.Content.ReadAsStringAsync().Result;
 
-            List<CustomerResponseDto> customerResponseList = JsonConvert.DeserializeObject<List<CustomerResponseDto>>(content);
+            List<CustomerResponseDto> customerResponseList = JsonConvert.DeserializeObject<List<CustomerResponseDto>>(content)!;
 
             customerResponseList.Should().NotBeNull();
             customerResponseList.Count.Should().BeGreaterThanOrEqualTo(5);

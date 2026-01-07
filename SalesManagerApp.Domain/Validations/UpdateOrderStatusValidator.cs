@@ -7,8 +7,9 @@ namespace SalesManagerApp.Domain.Validations
     {
         public UpdateOrderStatusValidator()
         {
-            RuleFor(uo => uo.OrderStatus)
-                .InclusiveBetween(0, 4).WithMessage("O status do pedido deve ser um valor válido entre 0 e 4.");
+            RuleFor(uo => uo.Status)
+                .IsInEnum().WithMessage("O status do pedido deve ser um valor válido entre 0 e 4.");
+            //.InclusiveBetween(0, 4).WithMessage("O status do pedido deve ser um valor válido entre 0 e 4.");
         }
     }
 }

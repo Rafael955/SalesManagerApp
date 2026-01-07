@@ -7,6 +7,7 @@ using Moq;
 using SalesManagerApp.Controllers;
 using SalesManagerApp.Domain.Dtos.Requests;
 using SalesManagerApp.Domain.Dtos.Responses;
+using SalesManagerApp.Domain.Enums;
 using SalesManagerApp.Domain.Interfaces.Services;
 
 namespace SalesManagerApp.Test.UnitTests
@@ -194,19 +195,19 @@ namespace SalesManagerApp.Test.UnitTests
             };
 
             mockService
-                .Setup(s => s.AtualizarStatusDoPedido(It.IsAny<Guid?>(), It.IsAny<UpdateOrderStatusRequestDto>()))
+                .Setup(s => s.AtualizarStatusDoPedido(It.IsAny<Guid>(), It.IsAny<UpdateOrderStatusRequestDto>()))
                 .Returns(orderResponse);
 
             var controller = new OrdersController(mockService.Object);
 
-            var request = new UpdateOrderStatusRequestDto { OrderStatus = 2 };
+            var request = new UpdateOrderStatusRequestDto { Status = OrderStatus.InProgress };
 
             var result = controller.UpdateOrderStatus(orderResponse.Id, request);
 
             var objectResult = result as ObjectResult;
 
             objectResult.Should().NotBeNull();
-            objectResult!.StatusCode.Should().Be(StatusCodes.Status201Created);
+            objectResult!.StatusCode.Should().Be(StatusCodes.Status200OK);
 
             var value = objectResult.Value!;
             var messageProp = value.GetType().GetProperty("Message");
@@ -215,7 +216,7 @@ namespace SalesManagerApp.Test.UnitTests
             messageProp.Should().NotBeNull();
             dataProp.Should().NotBeNull();
 
-            messageProp!.GetValue(value)!.Should().Be("Pedido criado com sucesso");
+            messageProp!.GetValue(value)!.Should().Be("Status do pedido atualizado com sucesso");
 
             var dataValue = dataProp!.GetValue(value) as OrderResponseDto;
             dataValue.Should().NotBeNull();
@@ -235,12 +236,12 @@ namespace SalesManagerApp.Test.UnitTests
             var mockService = new Mock<IOrderDomainService>();
 
             mockService
-                .Setup(s => s.AtualizarStatusDoPedido(It.IsAny<Guid?>(), It.IsAny<UpdateOrderStatusRequestDto>()))
+                .Setup(s => s.AtualizarStatusDoPedido(It.IsAny<Guid>(), It.IsAny<UpdateOrderStatusRequestDto>()))
                 .Throws(validationException);
 
             var controller = new OrdersController(mockService.Object);
 
-            var result = controller.UpdateOrderStatus(Guid.NewGuid(), new UpdateOrderStatusRequestDto { OrderStatus = 999 });
+            var result = controller.UpdateOrderStatus(Guid.NewGuid(), new UpdateOrderStatusRequestDto { Status = (OrderStatus)999 });
 
             var objectResult = result as ObjectResult;
 
@@ -268,12 +269,12 @@ namespace SalesManagerApp.Test.UnitTests
             };
 
             mockService
-                .Setup(s => s.CancelarPedido(It.IsAny<Guid?>()))
+                .Setup(s => s.AtualizarStatusDoPedido(It.IsAny<Guid>(), It.IsAny<UpdateOrderStatusRequestDto>()))
                 .Returns(orderResponse);
 
             var controller = new OrdersController(mockService.Object);
 
-            var result = controller.CancelOrder(orderResponse.Id);
+            var result = controller.UpdateOrderStatus(Guid.NewGuid(), new UpdateOrderStatusRequestDto { Status = OrderStatus.Cancelled });
 
             var objectResult = result as ObjectResult;
 
@@ -300,12 +301,12 @@ namespace SalesManagerApp.Test.UnitTests
             var mockService = new Mock<IOrderDomainService>();
 
             mockService
-                .Setup(s => s.CancelarPedido(It.IsAny<Guid?>()))
+                .Setup(s => s.AtualizarStatusDoPedido(It.IsAny<Guid>(), It.IsAny<UpdateOrderStatusRequestDto>()))
                 .Throws(new ApplicationException("O pedido com este Id não existe!"));
 
             var controller = new OrdersController(mockService.Object);
 
-            var result = controller.CancelOrder(Guid.NewGuid());
+            var result = controller.UpdateOrderStatus(Guid.NewGuid(), new UpdateOrderStatusRequestDto { Status = OrderStatus.Cancelled });
 
             var objectResult = result as ObjectResult;
 

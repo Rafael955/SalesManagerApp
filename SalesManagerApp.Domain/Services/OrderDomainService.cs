@@ -3,9 +3,9 @@ using SalesManagerApp.Domain.Dtos.Requests;
 using SalesManagerApp.Domain.Dtos.Responses;
 using SalesManagerApp.Domain.Entities;
 using SalesManagerApp.Domain.Enums;
-using SalesManagerApp.Domain.Helpers;
 using SalesManagerApp.Domain.Interfaces.Repositories;
 using SalesManagerApp.Domain.Interfaces.Services;
+using SalesManagerApp.Domain.Mappers;
 using SalesManagerApp.Domain.Validations;
 
 namespace SalesManagerApp.Domain.Services
@@ -63,79 +63,17 @@ namespace SalesManagerApp.Domain.Services
             if (orderCreated == null)
                 throw new ApplicationException("O pedido com este Id não existe!");
 
-            return new OrderResponseDto
-            {
-                Id = order.Id,
-                OrderDate = orderCreated.OrderDate,
-                TotalValue = orderCreated.TotalValue,
-                OrderStatus = orderCreated.Status.GetDescription(),
-                CustomerId = order.CustomerId,
-                Customer = new CustomerResponseDto
-                {
-                    Id = orderCreated.Customer!.Id,
-                    Name = orderCreated.Customer.Name,
-                    Email = orderCreated.Customer.Email,
-                    Phone = orderCreated.Customer.Phone
-                },
-                OrderItems = orderCreated.OrderItems!.Select(oi => new OrderItemResponseDto
-                {
-                    Id = oi.Id,
-                    Quantity = oi.Quantity,
-                    UnitPrice = oi.UnitPrice,
-                    ProductName = oi.Product!.Name
-                }).ToList()
-            };
+            return orderCreated.MapToResponseDto();
         }
 
-        public OrderResponseDto CancelarPedido(Guid? id)
-        {
-            var order = orderRepository.GetById(id.Value);
-
-            if(order == null)
-                throw new ApplicationException("O pedido com este Id não existe!");
-
-            if(order.Status == OrderStatus.Completed)
-                throw new ApplicationException("Não será possível cancelar pois o pedido já foi concluido!");
-
-            if(order.Status == OrderStatus.Cancelled)
-                throw new ApplicationException("O pedido já está cancelado!");
-            
-            order.Status = OrderStatus.Cancelled;
-
-            orderRepository.Update(order);
-
-            return new OrderResponseDto
-            {
-                Id = order.Id,
-                OrderDate = order.OrderDate,
-                TotalValue = order.TotalValue,
-                OrderStatus = order.Status.GetDescription(),
-                CustomerId = order.CustomerId,
-                Customer = new CustomerResponseDto
-                {
-                    Id = order.Customer!.Id,
-                    Name = order.Customer.Name,
-                    Email = order.Customer.Email,
-                    Phone = order.Customer.Phone
-                },
-                OrderItems = order.OrderItems!.Select(oi => new OrderItemResponseDto
-                {
-                    Id = oi.Id,
-                    Quantity = oi.Quantity,
-                    UnitPrice = oi.UnitPrice,
-                    ProductName = oi.Product!.Name
-                }).ToList()
-            };
-        }
-
-        public OrderResponseDto AtualizarStatusDoPedido(Guid? id, UpdateOrderStatusRequestDto request)
+        public OrderResponseDto AtualizarStatusDoPedido(Guid id, UpdateOrderStatusRequestDto request)
         {
             var validation = new UpdateOrderStatusValidator().Validate(request);
 
             if(!validation.IsValid)
                 throw new ValidationException(validation.Errors);
 
-            var order = orderRepository.GetById(id.Value);
+            var order = orderRepository.GetById(id);
 
             if (order == null)
                 throw new ApplicationException("O pedido com este Id não existe!");
@@ -144,46 +82,28 @@ namespace SalesManagerApp.Domain.Services
                 throw new ApplicationException("Não será possível atualizar os status do pedido pois este pedido já foi concluido!");
 
             if (order.Status == OrderStatus.Cancelled)
-                throw new ApplicationException("Não será possível atualizar os status do pedido pois este pedido foi ccancelado!");
+                throw new ApplicationException("Não será possível atualizar os status do pedido pois este pedido foi cancelado!");
 
-            order.Status = (OrderStatus)request.OrderStatus;
+            order.Status = request.Status;
 
             orderRepository.Update(order);
 
-            return new OrderResponseDto
-            {
-                Id = order.Id,
-                OrderDate = order.OrderDate,
-                TotalValue = order.TotalValue,
-                OrderStatus = order.Status.GetDescription(),
-                CustomerId = order.CustomerId,
-                Customer = new CustomerResponseDto
-                {
-                    Id = order.Customer!.Id,
-                    Name = order.Customer.Name,
-                    Email = order.Customer.Email,
-                    Phone = order.Customer.Phone
-                },
-                OrderItems = order.OrderItems!.Select(oi => new OrderItemResponseDto
-                {
-                    Id = oi.Id,
-                    Quantity = oi.Quantity,
-                    UnitPrice = oi.UnitPrice,
-                    ProductName = oi.Product!.Name
-                }).ToList()
-            };
+            return order.MapToResponseDto();
         }
 
         public ICollection<OrderResponseDto> ListarPedidos(int pageNumber, int pageSize)
         {
-            return orderRepository.GetPaginatedList(pageNumber, pageSize).Select(order => new OrderResponseDto
-            {
-                Id = order.Id,
-                OrderDate = order.OrderDate,
-                TotalValue = order.TotalValue,
-                OrderStatus = order.Status.GetDescription(),
-                CustomerId = order.CustomerId
-            }).ToList();
+            return orderRepository.GetPaginatedList(pageNumber, pageSize).Select(order => order.MapToResponseDto()).ToList();
+        }
+
+        public OrderResponseDto ObterPedidoPorId(Guid id)
+        {
+            var order = orderRepository.GetById(id);
+
+            if (order == null)
+                throw new ApplicationException("O pedido com este Id não existe!");
+
+            return order.MapToResponseDto();
         }
     }
 }

@@ -12,12 +12,12 @@ namespace SalesManagerApp.Controllers
     [ApiController]
     public class ProductsController(IProductDomainService productDomainService) : ControllerBase
     {
-        [HttpPost("create-product")]
+        [HttpPost]
         [ProducesResponseType(typeof(ProductResponseDto), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(IEnumerable<ValidationErrorResponseDto>), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status500InternalServerError)]
-        public IActionResult Post([FromBody] ProductRequestDto request)
+        public IActionResult CreateProduct([FromBody] ProductRequestDto request)
         {
             try
             {
@@ -55,12 +55,12 @@ namespace SalesManagerApp.Controllers
             }
         }
 
-        [HttpPut("update-product/{id}")]
+        [HttpPut("{id}")]
         [ProducesResponseType(typeof(ProductResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IEnumerable<ValidationErrorResponseDto>), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status500InternalServerError)]
-        public IActionResult Put([FromRoute] Guid? id, [FromBody] ProductRequestDto request)
+        public IActionResult UpdateProduct([FromRoute] Guid id, [FromBody] ProductRequestDto request)
         {
             try
             {
@@ -98,11 +98,11 @@ namespace SalesManagerApp.Controllers
             }
         }
 
-        [HttpDelete("delete-product/{id}")]
+        [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status500InternalServerError)]
-        public IActionResult Delete([FromRoute] Guid? id)
+        public IActionResult DeleteProduct([FromRoute] Guid id)
         {
             try
             {
@@ -126,11 +126,11 @@ namespace SalesManagerApp.Controllers
             }
         }
 
-        [HttpGet("get-product/{id}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(ProductResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status500InternalServerError)]
-        public IActionResult GetById([FromRoute] Guid? id)
+        public IActionResult GetProductById([FromRoute] Guid id)
         {
             try
             {
@@ -154,10 +154,10 @@ namespace SalesManagerApp.Controllers
             }
         }
 
-        [HttpGet("list-products")]
+        [HttpGet]
         [ProducesResponseType(typeof(ProductResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status500InternalServerError)]
-        public IActionResult Get()
+        public IActionResult ListProducts()
         {
             try
             {

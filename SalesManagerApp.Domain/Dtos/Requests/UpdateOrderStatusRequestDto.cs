@@ -1,7 +1,9 @@
-﻿namespace SalesManagerApp.Domain.Dtos.Requests
+﻿using SalesManagerApp.Domain.Enums;
+
+namespace SalesManagerApp.Domain.Dtos.Requests
 {
     public class UpdateOrderStatusRequestDto
     {
-        public int OrderStatus { get; set; }
+        public OrderStatus Status { get; set; }
     }
 }

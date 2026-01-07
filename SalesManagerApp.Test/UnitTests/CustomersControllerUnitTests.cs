@@ -26,7 +26,7 @@ namespace SalesManagerApp.Test.UnitTests
 
             var request = new CustomerRequestDto { Name = "Nome", Email = "a@b.com", Phone = "123" };
 
-            var result = controller.Post(request);
+            var result = controller.RegisterCustomer(request);
 
             var objectResult = result as ObjectResult;
 
@@ -52,7 +52,7 @@ namespace SalesManagerApp.Test.UnitTests
 
             var request = new CustomerRequestDto { Name = "Nome", Email = "a@b.com", Phone = "123" };
 
-            var result = controller.Post(request);
+            var result = controller.RegisterCustomer(request);
 
             var objectResult = result as ObjectResult;
             objectResult.Should().NotBeNull();
@@ -82,7 +82,7 @@ namespace SalesManagerApp.Test.UnitTests
 
             var request = new CustomerRequestDto { Name = "", Email = "invalido", Phone = "" };
 
-            var result = controller.Post(request);
+            var result = controller.RegisterCustomer(request);
 
             var objectResult = result as ObjectResult;
             objectResult.Should().NotBeNull();
@@ -105,7 +105,7 @@ namespace SalesManagerApp.Test.UnitTests
 
             var request = new CustomerRequestDto { Name = "Nome", Email = "a@b.com", Phone = "123" };
 
-            var result = controller.Put(Guid.NewGuid(), request);
+            var result = controller.UpdateCustomer(Guid.NewGuid(), request);
 
             var objectResult = result as ObjectResult;
             objectResult.Should().NotBeNull();
@@ -126,7 +126,7 @@ namespace SalesManagerApp.Test.UnitTests
 
             var controller = new CustomersController(mockService.Object);
 
-            var result = controller.Delete(Guid.NewGuid());
+            var result = controller.DeleteCustomer(Guid.NewGuid());
 
             var objectResult = result as ObjectResult;
             objectResult.Should().NotBeNull();
@@ -147,7 +147,7 @@ namespace SalesManagerApp.Test.UnitTests
 
             var controller = new CustomersController(mockService.Object);
 
-            var result = controller.Get();
+            var result = controller.ListCustomers();
 
             var objectResult = result as ObjectResult;
             objectResult.Should().NotBeNull();
@@ -179,7 +179,7 @@ namespace SalesManagerApp.Test.UnitTests
 
             var request = new CustomerRequestDto { Name = "Cliente Teste", Email = "teste@x.com", Phone = "99999" };
 
-            var result = controller.Post(request);
+            var result = controller.RegisterCustomer(request);
 
             var objectResult = result as ObjectResult;
 
@@ -225,7 +225,7 @@ namespace SalesManagerApp.Test.UnitTests
 
             var request = new CustomerRequestDto { Name = "Cliente Alterado", Email = "alterado@x.com", Phone = "11111" };
 
-            var result = controller.Put(customerResponse.Id, request);
+            var result = controller.UpdateCustomer(customerResponse.Id, request);
 
             var objectResult = result as ObjectResult;
 
@@ -263,7 +263,7 @@ namespace SalesManagerApp.Test.UnitTests
             var controller = new CustomersController(mockService.Object);
 
             var id = Guid.NewGuid();
-            var result = controller.Delete(id);
+            var result = controller.DeleteCustomer(id);
 
             var statusResult = result as StatusCodeResult;
 
@@ -290,7 +290,7 @@ namespace SalesManagerApp.Test.UnitTests
 
             var controller = new CustomersController(mockService.Object);
 
-            var result = controller.GetById(customerResponse.Id);
+            var result = controller.GetCustomerById(customerResponse.Id);
 
             var objectResult = result as ObjectResult;
 
@@ -319,7 +319,7 @@ namespace SalesManagerApp.Test.UnitTests
 
             var controller = new CustomersController(mockService.Object);
 
-            var result = controller.Get();
+            var result = controller.ListCustomers();
 
             var objectResult = result as ObjectResult;
 

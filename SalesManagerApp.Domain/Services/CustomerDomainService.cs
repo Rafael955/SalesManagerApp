@@ -4,6 +4,7 @@ using SalesManagerApp.Domain.Dtos.Responses;
 using SalesManagerApp.Domain.Entities;
 using SalesManagerApp.Domain.Interfaces.Repositories;
 using SalesManagerApp.Domain.Interfaces.Services;
+using SalesManagerApp.Domain.Mappers;
 using SalesManagerApp.Domain.Validations;
 
 namespace SalesManagerApp.Domain.Services
@@ -32,18 +33,12 @@ namespace SalesManagerApp.Domain.Services
 
             customerRepository.Add(customer);
 
-            return new CustomerResponseDto
-            {
-                Id = customer.Id,
-                Name = customer.Name,
-                Email = customer.Email,
-                Phone = customer.Phone
-            };
+            return customer.MapToResponse();
         }
 
-        public CustomerResponseDto AtualizarCliente(Guid? id, CustomerRequestDto request)
+        public CustomerResponseDto AtualizarCliente(Guid id, CustomerRequestDto request)
         {
-            var customer = customerRepository.GetById(id.Value);
+            var customer = customerRepository.GetById(id);
 
             if (customer == null)
                 throw new ApplicationException("O cliente com este Id não existe!");
@@ -64,18 +59,12 @@ namespace SalesManagerApp.Domain.Services
 
             customerRepository.Update(customer);
 
-            return new CustomerResponseDto
-            {
-                Id = customer.Id,
-                Name = customer.Name,
-                Email = customer.Email,
-                Phone = customer.Phone
-            };
+            return customer.MapToResponse();
         }
 
-        public void ExcluirCliente(Guid? id)
+        public void ExcluirCliente(Guid id)
         {
-            var customer = customerRepository.GetById(id.Value);
+            var customer = customerRepository.GetById(id);
 
             if (customer == null)
                 throw new ApplicationException("O cliente com este Id não existe!");
@@ -83,41 +72,19 @@ namespace SalesManagerApp.Domain.Services
             customerRepository.Delete(customer);
         }
 
-        public CustomerResponseDto ObterClientePorId(Guid? id)
+        public CustomerResponseDto ObterClientePorId(Guid id)
         {
-            var customer = customerRepository.GetById(id.Value);
+            var customer = customerRepository.GetById(id);
 
             if (customer == null)
                 throw new ApplicationException("O cliente com este Id não existe!");
 
-            return new CustomerResponseDto
-            {
-                Id = customer.Id,
-                Name = customer.Name,
-                Email = customer.Email,
-                Phone = customer.Phone,
-                Orders = customer.Orders
-            };
+            return customer.MapToResponse();
         }
 
         public ICollection<CustomerResponseDto> ObterTodosClientes()
         {
-            var customers = customerRepository.GetAll();
-
-            List<CustomerResponseDto> listCustomersDto = new List<CustomerResponseDto>();
-
-            foreach (var customer in customers)
-            {
-                listCustomersDto.Add(new CustomerResponseDto
-                {
-                    Id = customer.Id,
-                    Name = customer.Name,
-                    Email = customer.Email,
-                    Phone = customer.Phone
-                });
-            }
-
-            return listCustomersDto;
+            return customerRepository.GetAll().Select(customer => customer.MapToResponse()).ToList();
         }
     }
 }
