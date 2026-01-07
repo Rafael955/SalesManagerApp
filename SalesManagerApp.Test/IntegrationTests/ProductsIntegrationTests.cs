@@ -9,11 +9,11 @@ using System.Net.Http.Json;
 
 namespace SalesManagerApp.Test.IntegrationTests
 {
-    public class ProductsTests
+    public class ProductsIntegrationTests
     {
         private readonly HttpClient _httpClient;
 
-        public ProductsTests()
+        public ProductsIntegrationTests()
         {
             _httpClient = new WebApplicationFactory<Program>().CreateClient();
         }
@@ -35,9 +35,10 @@ namespace SalesManagerApp.Test.IntegrationTests
             response.StatusCode.Should().Be(HttpStatusCode.Created);
 
             var content = response.Content.ReadAsStringAsync().Result;
-            var objeto = JsonConvert.DeserializeObject<dynamic>(content);
+            var objeto = JsonConvert.DeserializeObject<dynamic>(content)!;
 
-            var message = objeto.message?.ToString();
+            string message = objeto.message.ToString();
+
             message.Should().Be("Produto criado com sucesso");
 
             ProductResponseDto productResponse = JsonConvert.DeserializeObject<ProductResponseDto>(objeto.data.ToString());
@@ -105,9 +106,9 @@ namespace SalesManagerApp.Test.IntegrationTests
 
             var contentUpdate = responseUpdate.Content.ReadAsStringAsync().Result;
 
-            var objetoUpdate = JsonConvert.DeserializeObject<dynamic>(contentUpdate);
+            var objetoUpdate = JsonConvert.DeserializeObject<dynamic>(contentUpdate)!;
 
-            var message = objetoUpdate.message?.ToString();
+            string message = objetoUpdate.message.ToString();
 
             message.Should().Be("Produto alterado com sucesso");
 

@@ -9,11 +9,11 @@ using System.Net.Http.Json;
 
 namespace SalesManagerApp.Test.IntegrationTests
 {
-    public class CustomersTests
+    public class CustomersIntegrationTests
     {
         private readonly HttpClient _httpClient;
 
-        public CustomersTests()
+        public CustomersIntegrationTests()
         {
             _httpClient = new WebApplicationFactory<Program>().CreateClient();
         }
@@ -36,9 +36,11 @@ namespace SalesManagerApp.Test.IntegrationTests
 
             var content = response.Content.ReadAsStringAsync().Result;
 
-            var objeto = JsonConvert.DeserializeObject<dynamic>(content);
+            var objeto = JsonConvert.DeserializeObject<dynamic>(content)!;
 
-            objeto.message.ToString().Should().Be("Cliente cadastrado com sucesso!");
+            string message = objeto.message.ToString();
+
+            message.Should().Be("Cliente cadastrado com sucesso!");
 
             CustomerResponseDto customerResponse = JsonConvert.DeserializeObject<CustomerResponseDto>(objeto.data.ToString());
 
@@ -116,7 +118,7 @@ namespace SalesManagerApp.Test.IntegrationTests
             {
                 Name = _faker.Person.FullName,
                 Email = _faker.Person.Email,
-                Phone = _faker.Phone.PhoneNumber()
+                Phone = _faker.Phone.PhoneNumberFormat(0)
             };
 
             var response = _httpClient.PostAsJsonAsync("api/customers/register-customer", request).Result;
@@ -143,7 +145,9 @@ namespace SalesManagerApp.Test.IntegrationTests
 
             objeto = JsonConvert.DeserializeObject<dynamic>(content);
 
-            objeto.message.ToString().Should().Be("Cliente alterado com sucesso!");
+            string message = objeto.message.ToString();
+
+            message.Should().Be("Cliente alterado com sucesso!");
 
             customerResponse = JsonConvert.DeserializeObject<CustomerResponseDto>(objeto.data.ToString());
 

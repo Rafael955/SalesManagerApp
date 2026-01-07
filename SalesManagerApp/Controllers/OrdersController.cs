@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SalesManagerApp.Domain.Dtos.Requests;
@@ -32,35 +31,31 @@ namespace SalesManagerApp.Controllers
             }
             catch (ValidationException ex)
             {
-                var errors = ex.Errors.Select(err => new ValidationErrorResponseDto
+                var errors = ex.Errors.Select(e => new ValidationErrorResponseDto
                 {
-                    PropertyName = err.PropertyName,
-                    ErrorMessage = err.ErrorMessage
-                }).ToList();
-
-                return StatusCode(StatusCodes.Status422UnprocessableEntity, new
-                {
-                    Message = "Erros de validação encontrados",
-                    Errors = errors
+                    PropertyName = e.PropertyName,
+                    ErrorMessage = e.ErrorMessage
                 });
+
+                return StatusCode(StatusCodes.Status422UnprocessableEntity, errors);
             }
             catch (ApplicationException ex)
             {
-                return StatusCode(StatusCodes.Status400BadRequest, new
+                return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponseDto
                 {
-                    ex.Message
+                    Message = ex.Message
                 });
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponseDto
                 {
-                    ex.Message
+                    Message = ex.Message
                 });
             }
         }
 
-        [HttpGet("update-order-status/{id}")]
+        [HttpPut("update-order-status/{id}")]
         [ProducesResponseType(typeof(OrderResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(IEnumerable<ValidationErrorResponseDto>), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status400BadRequest)]
@@ -71,7 +66,7 @@ namespace SalesManagerApp.Controllers
             {
                 var result = orderDomainService.AtualizarStatusDoPedido(id, request);
 
-                return StatusCode(StatusCodes.Status201Created, new
+                return StatusCode(StatusCodes.Status200OK, new
                 {
                     Message = "Pedido criado com sucesso",
                     Data = result
@@ -79,30 +74,26 @@ namespace SalesManagerApp.Controllers
             }
             catch (ValidationException ex)
             {
-                var errors = ex.Errors.Select(err => new ValidationErrorResponseDto
+                var errors = ex.Errors.Select(e => new ValidationErrorResponseDto
                 {
-                    PropertyName = err.PropertyName,
-                    ErrorMessage = err.ErrorMessage
-                }).ToList();
-
-                return StatusCode(StatusCodes.Status422UnprocessableEntity, new
-                {
-                    Message = "Erros de validação encontrados",
-                    Errors = errors
+                    PropertyName = e.PropertyName,
+                    ErrorMessage = e.ErrorMessage
                 });
+
+                return StatusCode(StatusCodes.Status422UnprocessableEntity, errors);
             }
             catch (ApplicationException ex)
             {
-                return StatusCode(StatusCodes.Status400BadRequest, new
+                return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponseDto
                 {
-                    ex.Message
+                    Message = ex.Message
                 });
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponseDto
                 {
-                    ex.Message
+                    Message = ex.Message
                 });
             }
         }
@@ -125,16 +116,16 @@ namespace SalesManagerApp.Controllers
             }
             catch (ApplicationException ex)
             {
-                return StatusCode(StatusCodes.Status400BadRequest, new
+                return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponseDto
                 {
-                    ex.Message
+                    Message = ex.Message
                 });
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponseDto
                 {
-                    ex.Message
+                    Message = ex.Message
                 });
             }
         }
@@ -152,16 +143,16 @@ namespace SalesManagerApp.Controllers
             }
             catch (ApplicationException ex)
             {
-                return StatusCode(StatusCodes.Status400BadRequest, new
+                return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponseDto
                 {
-                    ex.Message
+                    Message = ex.Message
                 });
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponseDto
                 {
-                    ex.Message
+                    Message = ex.Message
                 });
             }
         }

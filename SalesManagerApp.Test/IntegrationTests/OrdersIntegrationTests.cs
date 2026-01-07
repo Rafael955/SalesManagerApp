@@ -12,11 +12,11 @@ using System.Text;
 
 namespace SalesManagerApp.Test.IntegrationTests
 {
-    public class OrdersTests
+    public class OrdersIntegrationTests
     {
         private readonly HttpClient _httpClient;
 
-        public OrdersTests()
+        public OrdersIntegrationTests()
         {
             _httpClient = new WebApplicationFactory<Program>().CreateClient();
         }
@@ -112,10 +112,7 @@ namespace SalesManagerApp.Test.IntegrationTests
 
             var content = response.Content.ReadAsStringAsync().Result;
 
-            var objeto = JsonConvert.DeserializeObject<dynamic>(content);
-
-            List<ValidationErrorResponseDto> validationErrors = JsonConvert.DeserializeObject<List<ValidationErrorResponseDto>>(objeto.errors.ToString())!;
-
+            List<ValidationErrorResponseDto> validationErrors = JsonConvert.DeserializeObject<List<ValidationErrorResponseDto>>(content)!;
 
             validationErrors.Should().NotBeNull();
             validationErrors.Count.Should().BeGreaterThan(0);
@@ -273,9 +270,7 @@ namespace SalesManagerApp.Test.IntegrationTests
 
             var contentUpdated = responseUpdate.Content.ReadAsStringAsync().Result;
 
-            var objeto = JsonConvert.DeserializeObject<dynamic>(contentUpdated);
-
-            List<ValidationErrorResponseDto> validationErrors = JsonConvert.DeserializeObject<List<ValidationErrorResponseDto>>(objeto.errors.ToString())!;
+            var validationErrors = JsonConvert.DeserializeObject<List<ValidationErrorResponseDto>>(contentUpdated);
 
             validationErrors.Should().NotBeNull();
             validationErrors.Count.Should().BeGreaterThan(0);

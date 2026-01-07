@@ -61,7 +61,7 @@ namespace SalesManagerApp.Domain.Services
             var orderCreated = orderRepository.GetById(order.Id);
 
             if (orderCreated == null)
-                throw new ApplicationException("Houve um erro ao tentar criar o pedido.");
+                throw new ApplicationException("O pedido com este Id não existe!");
 
             return new OrderResponseDto
             {

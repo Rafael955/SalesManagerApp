@@ -64,7 +64,7 @@ namespace SalesManagerApp.Controllers
         {
             try
             {
-                var result = productDomainService.CriarProduto(request);
+                var result = productDomainService.AtualizarProduto(id, request);
 
                 return StatusCode(StatusCodes.Status200OK, new
                 {

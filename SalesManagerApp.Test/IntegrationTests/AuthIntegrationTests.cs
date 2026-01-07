@@ -9,12 +9,12 @@ using System.Net.Http.Json;
 
 namespace SalesManagerApp.Test.IntegrationTests
 {
-    public class AuthTests
+    public class AuthIntegrationTests
     {
         private readonly HttpClient _httpClient;
         private readonly Faker _faker;
 
-        public AuthTests()
+        public AuthIntegrationTests()
         {
             _httpClient = new WebApplicationFactory<Program>().CreateClient();
             _faker = new Faker("pt_BR");

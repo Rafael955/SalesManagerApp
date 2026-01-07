@@ -15,7 +15,7 @@ namespace SalesManagerApp.Test.UnitTests
     public class AuthControllerUnitTests
     {
         [Fact(DisplayName = "Login deve retornar 500 quando o service lança Exception")]
-        public void Login_Returns500_WhenServiceThrowsException()
+        public void Login_DeveRetornarStatus500_QuandoServicoLancarException()
         {
             var mockService = new Mock<IAuthDomainService>();
 
@@ -25,14 +25,18 @@ namespace SalesManagerApp.Test.UnitTests
 
             var controller = new AuthController(mockService.Object);
 
-            var request = new UserLoginRequestDto { Email = "a@b.com", Password = "Senha@123" };
+            var request = new UserLoginRequestDto
+            {
+                Email = "admin@admin.com",
+                Password = "Admin@12345"
+            };
 
             var result = controller.Login(request);
 
             var objectResult = result as ObjectResult;
 
             objectResult.Should().NotBeNull();
-            objectResult!.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
+            objectResult.StatusCode.Should().Be(StatusCodes.Status500InternalServerError);
 
             var error = objectResult.Value as ErrorResponseDto;
 
@@ -41,7 +45,7 @@ namespace SalesManagerApp.Test.UnitTests
         }
 
         [Fact(DisplayName = "Login deve retornar 401 quando o service lança AuthenticationException")]
-        public void Login_Returns401_WhenServiceThrowsAuthenticationException()
+        public void Login_DeveRetornarStatus401_QuandoServicoLancarAuthenticationException()
         {
             var mockService = new Mock<IAuthDomainService>();
 
@@ -67,7 +71,7 @@ namespace SalesManagerApp.Test.UnitTests
         }
 
         [Fact(DisplayName = "Login deve retornar 422 quando o service lança ValidationException")]
-        public void Login_Returns422_WhenServiceThrowsValidationException()
+        public void Login_RetornaStatus422_QuandoServicoLancarValidationException()
         {
             var failures = new List<ValidationFailure>
             {
@@ -97,6 +101,49 @@ namespace SalesManagerApp.Test.UnitTests
 
             errors.Should().NotBeNull();
             errors!.Should().ContainSingle(e => e.PropertyName == "Email" && e.ErrorMessage == "Email inválido");
+        }
+
+        [Fact(DisplayName = "Login deve retornar 200 quando o service realiza um login com sucesso")]
+        public void Login_RetornaStatus200_QuandoServicoRetornaSucesso()
+        {
+            var mockService = new Mock<IAuthDomainService>();
+
+            var userLoginResponseDto = new UserLoginResponseDto
+            {
+                Id = Guid.NewGuid(),
+                Name = "Admin User",
+                Email = "admin@admin.com",
+                Role = "Administrator",
+                AccessToken = "token_sessao"
+            };
+
+            mockService
+                .Setup(s => s.AutenticarUsuario(It.IsAny<UserLoginRequestDto>()))
+                .Returns(userLoginResponseDto);
+
+            var controller = new AuthController(mockService.Object);
+
+            var request = new UserLoginRequestDto
+            {
+                Email = "admin@admin.com",
+                Password = "Admin@12345"
+            };
+
+            var result = controller.Login(request);
+
+            var objectResult = result as ObjectResult;
+
+            objectResult.Should().NotBeNull();
+            objectResult!.StatusCode.Should().Be(StatusCodes.Status200OK);
+
+            var userLoginResponseValue = objectResult.Value! as UserLoginResponseDto;
+
+            userLoginResponseValue.Should().NotBeNull();
+            userLoginResponseValue!.Id.Should().Be(userLoginResponseDto.Id);
+            userLoginResponseValue.Name.Should().Be("Admin User");
+            userLoginResponseValue.Email.Should().Be("admin@admin.com");
+            userLoginResponseValue.Role.Should().Be("Administrator");
+            userLoginResponseValue.AccessToken.Should().Be("token_sessao");
         }
     }
 }
