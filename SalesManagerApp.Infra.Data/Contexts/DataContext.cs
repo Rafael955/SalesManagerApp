@@ -5,9 +5,9 @@ namespace SalesManagerApp.Infra.Data.Contexts
 {
     public class DataContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
-            optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=BDSalesManager;Integrated Security=True;");
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -7,6 +7,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
+builder.Services.AddDataContextConfiguration(builder.Configuration);
+
 // Registrar a configuração do Swagger
 builder.Services.AddSwaggerConfiguration();
 

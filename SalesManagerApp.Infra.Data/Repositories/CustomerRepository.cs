@@ -7,23 +7,24 @@ namespace SalesManagerApp.Infra.Data.Repositories
 {
     public class CustomerRepository : BaseRepository<Customer>, ICustomerRepository
     {
+        private readonly DataContext context;
+
+        public CustomerRepository(DataContext context) : base(context)
+        {
+            this.context = context;
+        }
+
         public Customer? GetCustomerByEmail(string email)
         {
-            using (var context = new DataContext())
-            {
-                return context.Set<Customer>()
-                    .SingleOrDefault(c => c.Email == email);
-            }
+            return context.Set<Customer>()
+                .SingleOrDefault(c => c.Email == email);
         }
 
         public override Customer? GetById(Guid id)
         {
-            using (var context = new DataContext())
-            {
-                return context.Set<Customer>()
-                    .Include(c => c.Orders)
-                    .SingleOrDefault(c => c.Id == id);
-            }
+            return context.Set<Customer>()
+                .Include(c => c.Orders)
+                .SingleOrDefault(c => c.Id == id);
         }
     }
 }

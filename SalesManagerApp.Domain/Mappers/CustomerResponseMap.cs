@@ -1,9 +1,6 @@
 ﻿using SalesManagerApp.Domain.Dtos.Responses;
 using SalesManagerApp.Domain.Entities;
 using SalesManagerApp.Domain.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SalesManagerApp.Domain.Mappers
 {
