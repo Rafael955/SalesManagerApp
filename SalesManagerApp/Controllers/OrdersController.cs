@@ -110,13 +110,6 @@ namespace SalesManagerApp.Controllers
 
                 return StatusCode(StatusCodes.Status200OK, result);
             }
-            catch (ApplicationException ex)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest, new ErrorResponseDto
-                {
-                    Message = ex.Message
-                });
-            }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResponseDto
@@ -128,6 +121,7 @@ namespace SalesManagerApp.Controllers
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(OrderResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status500InternalServerError)]
         public IActionResult GetOrderById(Guid id)
         {

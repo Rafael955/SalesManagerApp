@@ -156,7 +156,6 @@ namespace SalesManagerApp.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(CustomerResponseDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status500InternalServerError)]
         public IActionResult ListCustomers()
         {
